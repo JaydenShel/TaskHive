@@ -1,0 +1,85 @@
+/* Center the homepage content */
+.homepage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    min-height: 100vh; /* Ensure the content takes up at least the full viewport height */
+}
+
+/* Center the header and apply color */
+h1 {
+    color: #2c3e50;
+    margin-bottom: 20px; /* Add spacing between the title and the upload section */
+}
+
+/* Upload section with some spacing */
+.upload-section {
+    margin-top: 20px;
+}
+
+/* Center the image upload input */
+.image-upload {
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+/* Image preview centered and responsive */
+.image-preview {
+    margin-top: 10px;
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ccc;
+    display: block;
+    margin-left: auto;
+    margin-right: auto; /* Center the image horizontally */
+}
+
+/* Style selection section with some spacing */
+.style-selection {
+    margin-top: 20px;
+}
+
+/* Style dropdown centered */
+.style-dropdown {
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+/* Transform button styling */
+.transform-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: inline-block;
+}
+
+/* Hover effect for transform button */
+.transform-button:hover {
+    background-color: #2980b9;
+}
+
+/* Modified image section with spacing */
+.modified-image-section {
+    margin-top: 30px;
+}
+
+/* Modified image centered and responsive */
+.modified-image {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ccc;
+    display: block;
+    margin-left: auto;
+    margin-right: auto; /* Center the modified image horizontally */
+}
