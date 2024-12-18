@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import '../Style/s_home.css';
 
-// A simple functional component for the homepage
 const HomePage = () => {
     const [image, setImage] = useState(null);
     const [style, setStyle] = useState('');

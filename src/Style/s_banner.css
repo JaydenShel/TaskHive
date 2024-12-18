@@ -1,0 +1,47 @@
+.banner {
+    width: 100%;
+    background-color: #2c3e50;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.banner-logo {
+    font-size: 28px;
+    font-weight: bold;
+    font-family: 'Georgia', serif;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.banner-actions button {
+    margin-left: 10px;
+    padding: 8px 16px;
+    font-size: 14px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.banner-actions button:hover {
+    background-color: #2980b9;
+}
+
+.logout-button {
+    background-color: #e74c3c;
+}
+
+.logout-button:hover {
+    background-color: #c0392b;
+}
+
+.profile {
+    margin-left: 15px;
+    font-weight: bold;
+    font-size: 16px;
+}
