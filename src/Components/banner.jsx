@@ -1,7 +1,13 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
-function Banner({ isLoggedIn, username, onLogin, onLogout, onNavigate }) {
+function Banner({ isLoggedIn, username, onLogin, onLogout }) {
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    // Check if the current page is the login page
+    const isLoginPage = location.pathname === '/login';
+
     return (
         <div className="banner">
             {/* Left: App Title */}
@@ -11,20 +17,31 @@ function Banner({ isLoggedIn, username, onLogin, onLogout, onNavigate }) {
 
             {/* Right: Navigation/Buttons */}
             <div className="banner-actions">
-                {isLoggedIn ? (
+                {!isLoginPage && isLoggedIn ? (
                     <>
-                        <button onClick={() => onNavigate('dashboard')}>Dashboard</button>
-                        <button onClick={() => onNavigate('settings')}>Settings</button>
+                        {/* Use Link for navigation */}
+                        <Link to="/dashboard">
+                            <button>Dashboard</button>
+                        </Link>
+                        <Link to="/settings">
+                            <button>Settings</button>
+                        </Link>
                         <button onClick={onLogout} className="logout-button">
                             Logout
                         </button>
                         <div className="profile">{username}</div>
                     </>
-                ) : (
-                    <button onClick={onLogin} className="login-button">
+                ) : !isLoginPage ? (
+                    <button
+                        onClick={() => {
+                            onLogin();
+                            navigate('/login');
+                        }}
+                        className="login-button"
+                    >
                         Login
                     </button>
-                )}
+                ) : null}
             </div>
         </div>
     );
@@ -35,7 +52,6 @@ Banner.propTypes = {
     username: PropTypes.string,
     onLogin: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
-    onNavigate: PropTypes.func.isRequired,
 };
 
 Banner.defaultProps = {
