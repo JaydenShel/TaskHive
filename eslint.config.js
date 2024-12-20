@@ -10,11 +10,11 @@ export default [
     files: ['**/*.{js,jsx}'],
     languageOptions: {
       ecmaVersion: 2020,
-      globals: globals.browser,
+      globals: { ...globals.browser, ...globals.node }, // Add node globals for require, process, etc.
       parserOptions: {
         ecmaVersion: 'latest',
         ecmaFeatures: { jsx: true },
-        sourceType: 'module',
+        sourceType: 'script', // Allow both CommonJS and ESModules
       },
     },
     settings: { react: { version: '18.3' } },
