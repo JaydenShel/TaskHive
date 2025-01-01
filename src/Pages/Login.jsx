@@ -5,17 +5,37 @@ import { useState } from "react";
 function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [isSuccess, setIsSuccess] = useState(false);
     const [error, setError] = useState("");
 
-    const handleSubmit = () => {
-        if (password.length < 8 || password.length > 16) {
-            setError("Password must be between 8-16 characters.");
-            setIsSuccess(false);
-        } else {
-            setError("Login successful!");
-            setIsSuccess(true);
+    //Upon user pressing the submit button
+    const handleSubmit = async () => {
+        //POST request to send username and password to verify credentials
+        const response = await fetch('http://localhost:3000/login/', {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify({username, password})
+        })
+
+        if(response.status >= 400){
+            setError("Login failed");
         }
+        else{
+            //Retrieve response data and token, set token in session storage
+            const data = await response.json();
+            const token = data.token;
+            sessionStorage.setItem('token', token);
+
+            setError("Login Succesful");
+
+
+            //Navigate back to home page
+            setTimeout( () => {
+                window.location.href = "/";
+            }, 1000);
+        }
+
     };
 
     return (
@@ -41,7 +61,7 @@ function Login() {
                 <button className="submit-button" onClick={handleSubmit}>
                     Sign In
                 </button>
-                <h3 className={isSuccess ? "success" : "warning"}>
+                <h3>
                     {error}
                 </h3>
             </div>

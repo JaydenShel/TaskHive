@@ -22,7 +22,7 @@ function App() {
     };
 
     const handleNavigate = (route) => {
-        setRedirectTo(route); // Set the redirect route
+        setRedirectTo(route);
         console.log(`Navigating to ${route}`);
     };
 
