@@ -24,12 +24,14 @@ function Login() {
         else{
             //Retrieve response data and token, set token in session storage
             const data = await response.json();
-            const token = data.token;
             const message = data.message;
-            console.log('Token:', token);
-            sessionStorage.setItem('token', token);
+            console.log(message)
 
-            setError("Login Succesful");
+            //Retrieve token and store in localStorage (1hr duration)
+            const token = data.token;
+            localStorage.setItem("token", token);
+
+            setError("Login Successful");
 
 
             //Navigate back to home page
