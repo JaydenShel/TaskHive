@@ -25,6 +25,8 @@ function Login() {
             //Retrieve response data and token, set token in session storage
             const data = await response.json();
             const token = data.token;
+            const message = data.message;
+            console.log('Token:', token);
             sessionStorage.setItem('token', token);
 
             setError("Login Succesful");
@@ -61,7 +63,7 @@ function Login() {
                 <button className="submit-button" onClick={handleSubmit}>
                     Sign In
                 </button>
-                <h3>
+                <h3 className={"password-info"}>
                     {error}
                 </h3>
             </div>
