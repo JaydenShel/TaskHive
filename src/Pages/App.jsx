@@ -1,22 +1,23 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { useState } from 'react';
-import LoginState from '../Components/LoginState.jsx';
+import { useState, useContext } from 'react';
+import { Context } from "../Components/LoginState"; // Import the context
 import HomePage from './Home.jsx';
 import Login from './Login.jsx';
 import Banner from '../Components/Banner.jsx';
 
 function App() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    // Correctly destructure the context value
+    const [isLoggedIn, setIsLoggedIn] = useContext(Context); // Use context properly
     const [redirectTo, setRedirectTo] = useState(null);
 
     const handleLogin = () => {
-        setIsLoggedIn(true);
+        setIsLoggedIn(true); // Use context's setIsLoggedIn
         setRedirectTo("/login");
         console.log("User logged in");
     };
 
     const handleLogout = () => {
-        setIsLoggedIn(false);
+        setIsLoggedIn(false); // Use context's setIsLoggedIn
         setRedirectTo(null);
         console.log("User logged out");
     };
@@ -27,28 +28,26 @@ function App() {
     };
 
     return (
-        <LoginState>
-            <BrowserRouter>
-                {redirectTo && (
-                    <>
-                        <Navigate to={redirectTo} replace />
-                        {setRedirectTo(null)}
-                    </>
-                )}
-                <Banner
-                    isLoggedIn={isLoggedIn}
-                    onLogin={handleLogin}
-                    onLogout={handleLogout}
-                    onNavigate={handleNavigate}
-                    username={isLoggedIn ? "Username" : ""}
-                />
-                <Routes>
-                    <Route path="/" element={<HomePage />} />
-                    <Route path="/home" element={<HomePage />} />
-                    <Route path="/login" element={<Login />} />
-                </Routes>
-            </BrowserRouter>
-        </LoginState>
+        <BrowserRouter>
+            {redirectTo && (
+                <>
+                    <Navigate to={redirectTo} replace />
+                    {setRedirectTo(null)}
+                </>
+            )}
+            <Banner
+                isLoggedIn={isLoggedIn}
+                onLogin={handleLogin}
+                onLogout={handleLogout}
+                onNavigate={handleNavigate}
+                username={isLoggedIn ? "Username" : ""}
+            />
+            <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/home" element={<HomePage />} />
+                <Route path="/login" element={<Login />} />
+            </Routes>
+        </BrowserRouter>
     );
 }
 

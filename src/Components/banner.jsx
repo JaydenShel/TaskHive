@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
+import '../Style/s_banner.css';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
-function Banner({ isLoggedIn, username, onLogin, onLogout }) {
+function Banner({ isLoggedIn, username = '', onLogin, onLogout }) {  // Set default value for username
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -52,10 +53,6 @@ Banner.propTypes = {
     username: PropTypes.string,
     onLogin: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
-};
-
-Banner.defaultProps = {
-    username: '',
 };
 
 export default Banner;

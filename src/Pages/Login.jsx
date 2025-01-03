@@ -1,11 +1,15 @@
 import TextBox from '../Components/InputBox.jsx';
-import '../Style/s_login.css'
-import { useState } from "react";
+import '../Style/s_login.css';
+import { Context } from "../Components/LoginState";
+import { useState, useContext } from "react";
 
 function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+
+    // Get setIsLoggedIn from context
+    const [, setIsLoggedIn] = useContext(Context);
 
     //Upon user pressing the submit button
     const handleSubmit = async () => {
@@ -32,7 +36,7 @@ function Login() {
             localStorage.setItem("token", token);
 
             setError("Login Successful");
-
+            setIsLoggedIn(true);
 
             //Navigate back to home page
             setTimeout( () => {
