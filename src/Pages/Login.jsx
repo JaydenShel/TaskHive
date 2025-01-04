@@ -67,9 +67,6 @@ function Login() {
                     value={password}
                     onChange={setPassword}
                 />
-                <h3 className="password-info">
-                    *Passwords must be at least 8-16 characters in length
-                </h3>
                 <button className="submit-button" onClick={handleSubmit}>
                     Sign In
                 </button>
