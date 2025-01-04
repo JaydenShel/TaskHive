@@ -18,7 +18,7 @@ router.post('/', (req, res) => {
     if (username === 'admin' && password === 'password123') {
         //Generate JWT and return message and token
         const token = jwt.sign({ username }, SECRET_KEY, { expiresIn: '1h' });
-        return res.status(200).json({ message: 'Login successful!' , token});
+        return res.status(200).json({ message: 'Login successful!' , token, username});
     } else {
         return res.status(401).json({message: 'Invalid credentials!'});
     }

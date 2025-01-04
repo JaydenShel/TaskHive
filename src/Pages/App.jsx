@@ -1,23 +1,31 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { useState, useContext } from 'react';
-import { Context } from "../Components/LoginState"; // Import the context
+import { useState, useContext, useEffect } from 'react';
+import { Context } from '../states/LoginContext';
 import HomePage from './Home.jsx';
 import Login from './Login.jsx';
 import Banner from '../Components/Banner.jsx';
+import Settings from '../Pages/Settings.jsx';
 
 function App() {
-    // Correctly destructure the context value
-    const [isLoggedIn, setIsLoggedIn] = useContext(Context); // Use context properly
+    const [isLoggedIn, setIsLoggedIn] = useContext(Context);
     const [redirectTo, setRedirectTo] = useState(null);
 
+    //Determine if token exists. If so, user is logged in
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            setIsLoggedIn(true);
+        }
+        //Dependency array to ensure only runs once
+    }, [setIsLoggedIn]);
+
     const handleLogin = () => {
-        setIsLoggedIn(true); // Use context's setIsLoggedIn
         setRedirectTo("/login");
         console.log("User logged in");
     };
 
     const handleLogout = () => {
-        setIsLoggedIn(false); // Use context's setIsLoggedIn
+        setIsLoggedIn(false);
         setRedirectTo(null);
         console.log("User logged out");
     };
@@ -32,7 +40,7 @@ function App() {
             {redirectTo && (
                 <>
                     <Navigate to={redirectTo} replace />
-                    {setRedirectTo(null)}
+                    {setRedirectTo(null)} {/* Reset redirectTo after navigating */}
                 </>
             )}
             <Banner
@@ -40,12 +48,12 @@ function App() {
                 onLogin={handleLogin}
                 onLogout={handleLogout}
                 onNavigate={handleNavigate}
-                username={isLoggedIn ? "Username" : ""}
             />
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/home" element={<HomePage />} />
                 <Route path="/login" element={<Login />} />
+                <Route path ="/settings" element={<Settings />}/>
             </Routes>
         </BrowserRouter>
     );

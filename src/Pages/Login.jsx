@@ -1,6 +1,6 @@
 import TextBox from '../Components/InputBox.jsx';
 import '../Style/s_login.css';
-import { Context } from "../Components/LoginState";
+import { Context } from '../states/LoginContext';
 import { useState, useContext } from "react";
 
 function Login() {
@@ -37,6 +37,10 @@ function Login() {
 
             setError("Login Successful");
             setIsLoggedIn(true);
+
+            //Retrieve username and store in localStorage
+            const username = data.username;
+            localStorage.setItem('username', username);
 
             //Navigate back to home page
             setTimeout( () => {

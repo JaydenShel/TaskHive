@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import '../Style/s_banner.css';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
-function Banner({ isLoggedIn, username = '', onLogin, onLogout }) {  // Set default value for username
+function Banner({ isLoggedIn = '', onLogin, onLogout }) {  // Set default value for username
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -30,7 +30,7 @@ function Banner({ isLoggedIn, username = '', onLogin, onLogout }) {  // Set defa
                         <button onClick={onLogout} className="logout-button">
                             Logout
                         </button>
-                        <div className="profile">{username}</div>
+                        <div className="profile">{localStorage.getItem('username')}</div>
                     </>
                 ) : !isLoginPage ? (
                     <button
@@ -50,7 +50,6 @@ function Banner({ isLoggedIn, username = '', onLogin, onLogout }) {  // Set defa
 
 Banner.propTypes = {
     isLoggedIn: PropTypes.bool.isRequired,
-    username: PropTypes.string,
     onLogin: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
 };
