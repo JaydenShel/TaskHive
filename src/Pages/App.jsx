@@ -5,6 +5,7 @@ import HomePage from './Home.jsx';
 import Login from './Login.jsx';
 import Banner from '../Components/Banner.jsx';
 import Settings from '../Pages/Settings.jsx';
+import Account from '../Pages/Account.jsx';
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useContext(Context);
@@ -35,6 +36,10 @@ function App() {
         console.log(`Navigating to ${route}`);
     };
 
+    const handleAccount = () => {
+        setRedirectTo("/account");
+        console.log("Account creation");
+    }
     return (
         <BrowserRouter>
             {redirectTo && (
@@ -48,11 +53,13 @@ function App() {
                 onLogin={handleLogin}
                 onLogout={handleLogout}
                 onNavigate={handleNavigate}
+                onAccount={handleAccount}
             />
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/home" element={<HomePage />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/account" element={<Account/>} />
                 <Route path ="/settings" element={<Settings />}/>
             </Routes>
         </BrowserRouter>
