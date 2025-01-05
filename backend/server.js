@@ -14,8 +14,10 @@ app.use(bodyParser.json());
 
 //Import api files and assign routes
 const loginRoute = require('./api/login')
+const accountRoute = require('./api/account')
 
 app.use('/login', loginRoute);
+app.use('/account', accountRoute);
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
