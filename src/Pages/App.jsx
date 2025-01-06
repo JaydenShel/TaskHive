@@ -6,6 +6,7 @@ import Login from './Login.jsx';
 import Banner from '../Components/Banner.jsx';
 import Settings from '../Pages/Settings.jsx';
 import Account from '../Pages/Account.jsx';
+import Collections from "./Collections.jsx";
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useContext(Context);
@@ -61,6 +62,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/account" element={<Account/>} />
                 <Route path ="/settings" element={<Settings />}/>
+                <Route path="/collections" element={<Collections/>}/>
             </Routes>
         </BrowserRouter>
     );

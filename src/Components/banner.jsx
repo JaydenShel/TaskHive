@@ -22,8 +22,8 @@ function Banner({ isLoggedIn = '', onLogin, onLogout, onAccount }) {  // Set def
                 {!isLoginPage && isLoggedIn ? (
                     <>
                         {/* Use Link for navigation */}
-                        <Link to="/dashboard">
-                            <button>Dashboard</button>
+                        <Link to="/collections">
+                            <button>Collections</button>
                         </Link>
                         <Link to="/settings">
                             <button>Settings</button>

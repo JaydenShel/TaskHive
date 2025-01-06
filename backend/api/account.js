@@ -9,7 +9,7 @@ router.post('/', (req, res) => {
     }
     //Catch any errors, store as a message in response
     catch(error){
-        return res.status(401).json({message: error});
+        return res.status(402).json({message: error});
     }
 })
 
