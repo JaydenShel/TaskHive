@@ -8,6 +8,7 @@ function Banner({ isLoggedIn = '', onLogin, onLogout, onAccount }) {  // Set def
 
     //Check if the current page is the login page
     const isLoginPage = location.pathname === '/login';
+    const isAccountPage = location.pathname === '/account';
 
     return (
         <div className="banner">
@@ -32,7 +33,7 @@ function Banner({ isLoggedIn = '', onLogin, onLogout, onAccount }) {  // Set def
                         </button>
                         <div className="profile">{localStorage.getItem('username')}</div>
                     </>
-                ) : !isLoginPage ? (
+                ) : !isLoginPage && !isAccountPage ? (
                     <>
                         <button
                             onClick={() => {
