@@ -31,10 +31,6 @@ function Login() {
             const message = data.message;
             console.log(message)
 
-            //Retrieve token and store in localStorage (1hr duration)
-            const token = data.token;
-            localStorage.setItem("token", token);
-
             setError("Login Successful");
             setIsLoggedIn(true);
 
