@@ -3,7 +3,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 
-// Secret key for signing the JWT
+//Secret key for signing the JWT
 const SECRET_KEY = process.env.JWT_SECRET || 'your_secret_key';
 
 router.post('/', (req, res) => {
@@ -18,7 +18,16 @@ router.post('/', (req, res) => {
     if (username === 'admin' && password === 'password123') {
         //Generate JWT and return message and token
         const token = jwt.sign({ username }, SECRET_KEY, { expiresIn: '1h' });
-        return res.status(200).json({ message: 'Login successful!' , token, username});
+
+        //Create a secure cookie to store JWT token
+        res.cookie("token", token, {
+            httpOnly: true, //XSS protection
+            secure: true, //Man-in-the-middle protection
+            sameSite: 'strict', //CSRF protection
+            expires: new Date(Date.now() + 3600000), //1hr Expiration (User is logged out)
+        });
+
+        return res.status(200).json({ message: 'Login successful!', username});
     } else {
         return res.status(401).json({message: 'Invalid credentials!'});
     }

@@ -8,6 +8,7 @@ router.post('/', (req, res) => {
     //Query the database, create a new column with username, password
     try{
         queryDatabase('INSERT INTO credentials (username, password, created_at) VALUES ($1, $2, $3)', [selectedUsername, selectedPassword, created_at])
+            .then()
         return res.status(200).json({message: "Account Creation Successful"})
     }
     //Catch any errors, store as a message in response
