@@ -29,7 +29,7 @@ function Account() {
         <div className={"login-container"}>
             <div className={"form-container"}>
                 <TextBox
-                    label="Enter Username"
+                    label="Choose Username"
                     type="text"
                     required
                     value={selectedUsername}
@@ -37,7 +37,7 @@ function Account() {
 
                 ></TextBox>
                 <TextBox
-                    label="Enter Password"
+                    label="Choose Password"
                     type="text"
                     required
                     value={selectedPassword}

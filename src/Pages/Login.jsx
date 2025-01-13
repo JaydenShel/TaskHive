@@ -2,14 +2,16 @@ import TextBox from '../Components/InputBox.jsx';
 import '../Style/s_login.css';
 import { Context } from '../states/LoginContext';
 import { useState, useContext } from "react";
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
+    const navigate = useNavigate();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
     // Get setIsLoggedIn from context
-    const [, setIsLoggedIn] = useContext(Context);
+    const [isLoggedIn, setIsLoggedIn] = useContext(Context);
 
     //Upon user pressing the submit button
     const handleSubmit = async () => {
@@ -40,7 +42,7 @@ function Login() {
 
             //Navigate back to home page
             setTimeout( () => {
-                window.location.href = "/";
+                navigate('/');
             }, 1000);
         }
 

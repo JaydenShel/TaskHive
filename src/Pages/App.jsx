@@ -12,14 +12,13 @@ function App() {
     const [isLoggedIn, setIsLoggedIn] = useContext(Context);
     const [redirectTo, setRedirectTo] = useState(null);
 
-    //Determine if token exists. If so, user is logged in
+    //Periodically retrieve cookie and verify token
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            setIsLoggedIn(true);
-        }
-        //Dependency array to ensure only runs once
-    }, [setIsLoggedIn]);
+        console.log(isLoggedIn)
+        //If user is logged in verify token
+        verifyToken()
+            .then()
+    }, [isLoggedIn]);
 
     const handleLogin = () => {
         setRedirectTo("/login");
@@ -41,6 +40,29 @@ function App() {
         setRedirectTo("/account");
         console.log("Account creation");
     }
+
+    const verifyToken = async () => {
+        try {
+            const response = await fetch("http://localhost:3000/auth/", {
+                method: "GET",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (response.status === 200) {
+                console.log("Verification Success")
+                setIsLoggedIn(true); //Token is valid
+            } else {
+                setIsLoggedIn(false); //Token is invalid or expired
+            }
+        } catch (error) {
+            console.error("Token verification failed:", error);
+            setIsLoggedIn(false); //If there's an error, log out the user
+        }
+    };
+
     return (
         <BrowserRouter>
             {redirectTo && (
