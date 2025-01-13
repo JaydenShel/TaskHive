@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const cookieParser  = require("cookie-parser")
 const dotenv = require('dotenv');
 
 dotenv.config();
@@ -20,6 +21,7 @@ app.use(cors(corsOptions));
 //More middleware
 app.use(express.json());
 app.use(bodyParser.json());
+app.use(cookieParser())
 
 //Import api files and assign routes
 const loginRoute = require('./api/login')

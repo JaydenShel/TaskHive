@@ -1,20 +1,24 @@
 const express = require("express")
-const queryDatabase = require("../database")
 const router = express.Router();
+const registerUser = require('../services/registerUser')
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
     const {selectedUsername, selectedPassword} = req.body;
-    const created_at = new Date();
-    //Query the database, create a new column with username, password
+
+    //Ensure password and username exists
+    if(!selectedPassword || ! selectedPassword){
+        return res.status(400).json({message: "Missing Either Username or Password."})
+    }
+
+    //Attempt to register the user
     try{
-        queryDatabase('INSERT INTO credentials (username, password, created_at) VALUES ($1, $2, $3)', [selectedUsername, selectedPassword, created_at])
-            .then()
-        return res.status(200).json({message: "Account Creation Successful"})
+        await registerUser(selectedUsername, selectedPassword);
+        return res.status(200).json({message: "Account Created!"})
     }
     //Catch any errors, store as a message in response
     catch(error){
         console.log(error);
-        return res.status(402).json({message: error});
+        return res.status(500).json({ message: "Account creation failed.", error: error.message });
     }
 })
 
