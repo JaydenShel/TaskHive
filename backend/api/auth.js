@@ -1,6 +1,7 @@
 const express = require("express")
 const router = express.Router();
 const jwt = require("jsonwebtoken")
+const queryDatabase = require("../database")
 
 router.get('/', (req, res) => {
     console.log("Success")
@@ -15,13 +16,12 @@ router.get('/', (req, res) => {
         try{
             //Decode and verify the token
             const decoded_token = jwt.verify(token, process.env.SECRET_KEY)
+            return res.status(200).json({message: "Token Verified"})
         }
         catch(error){
             return res.status(200).json({message: error})
         }
-        return res.status(200);
     }
-    return res.status(200);
 })
 
 module.exports = router;
