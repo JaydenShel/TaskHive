@@ -29,6 +29,7 @@ function App() {
     const handleLogout = () => {
         setIsLoggedIn(false);
         setRedirectTo(null);
+        
         console.log("User logged out");
     };
 
