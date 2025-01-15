@@ -1,12 +1,12 @@
 const express = require("express")
 const router = express.Router();
 const jwt = require("jsonwebtoken")
-const queryDatabase = require("../database")
 
 router.get('/', (req, res) => {
     console.log("Success")
     //Retrieve the auth token from the cookie
     const token = req.cookies.token;
+    console.log(token)
 
     //If no token exists, return 401 unauthorized
     if(!token){

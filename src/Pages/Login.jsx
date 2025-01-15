@@ -11,7 +11,7 @@ function Login() {
     const [error, setError] = useState("");
 
     // Get setIsLoggedIn from context
-    const [isLoggedIn, setIsLoggedIn] = useContext(Context);
+    const [, setIsLoggedIn] = useContext(Context);
 
     //Upon user pressing the submit button
     const handleSubmit = async () => {
@@ -21,6 +21,7 @@ function Login() {
             headers: {
                 "content-type": "application/json",
             },
+            credentials: 'include',
             body: JSON.stringify({username, password})
         })
 
