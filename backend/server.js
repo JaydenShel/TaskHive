@@ -21,7 +21,8 @@ app.use(cors(corsOptions));
 //More middleware
 app.use(express.json());
 app.use(bodyParser.json());
-app.use(cookieParser())
+app.use(cookieParser());
+app.set("trust proxy", 1);
 
 //Import api files and assign routes
 const loginRoute = require('./api/login')

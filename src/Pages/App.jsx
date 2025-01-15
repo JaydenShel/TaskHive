@@ -14,11 +14,12 @@ function App() {
 
     //Periodically retrieve cookie and verify token
     useEffect(() => {
-        console.log(isLoggedIn)
         //If user is logged in verify token
         verifyToken()
             .then()
-    }, [isLoggedIn]);
+        const interval = setInterval(verifyToken, 5 * 60 * 1000);
+        return () => clearInterval(interval);
+    }, [setIsLoggedIn]);
 
     const handleLogin = () => {
         setRedirectTo("/login");
