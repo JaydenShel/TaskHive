@@ -11,6 +11,7 @@ router.get('/', async (req, res) => {
     if(!token){
         res.status(401);
     }
+
     else{
         try{
            //Retrieve decrypted token
