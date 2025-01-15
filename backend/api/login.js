@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
     //Handle query to find row with username, and verify password
     try {
         //Retrieve the hashed password given the username
-        const result = await queryDatabase('SELECT password FROM credentials WHERE username = $1', [username])
+        const result = await queryDatabase('SELECT id, password FROM credentials WHERE username = $1', [username])
 
         //Ensure result exists
         if (!result || result.length === 0) {
