@@ -3,7 +3,12 @@ const router = express.Router();
 const registerUser = require('../services/registerUser')
 
 router.post('/', async (req, res) => {
-    const {selectedUsername, selectedPassword} = req.body;
+    const {selectedUsername, selectedPassword, selectedPassword_r} = req.body;
+
+    //Ensure retyped password is same as password
+    if(selectedPassword_r !== selectedPassword){
+        return res.status(400).json({message: "Password does not match retyped password."})
+    }
 
     //Ensure password and username exists
     if(!selectedPassword || ! selectedPassword){

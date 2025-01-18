@@ -69,7 +69,7 @@ function Login() {
                 <button className="submit-button" onClick={handleSubmit}>
                     Sign In
                 </button>
-                <h3 className={"password-info"}>
+                <h3 className={"warning"}>
                     {error}
                 </h3>
             </div>
