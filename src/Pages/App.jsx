@@ -26,7 +26,15 @@ function App() {
         console.log("User logged in");
     };
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
+        await fetch("http://localhost:3000/logout/", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        })
+
         setIsLoggedIn(false);
         setRedirectTo(null);
         

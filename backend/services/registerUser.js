@@ -5,8 +5,8 @@ const queryDatabase = require("../database");
 async function registerUser(username, password) {
     const created_at = new Date();
 
-    //Hash the password
-    const hash = await bcrypt.hash(password, 10);
+    //Hash the password, 12 salt rounds for brute force protection
+    const hash = await bcrypt.hash(password, 12);
 
 
     //Insert into the database
