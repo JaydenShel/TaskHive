@@ -9,6 +9,7 @@ function Account() {
     const [selectedPassword, setPassword] = useState("");
     const [selectedPassword_r, setPassword_r] = useState("");
     const [error, setError] = useState("");
+    const [errorStatus, setErrorStatus] = useState(true)
 
     //Get useNavigate
     const navigate = useNavigate();
@@ -36,6 +37,11 @@ function Account() {
         if(response.status > 400){
             setError("Account Creation Failed")
         }
+
+        //Display success message
+        setErrorStatus(false)
+        setError("Account Successfully Created")
+
         setTimeout(() => {
             navigate('/login');
         }, 1000)
@@ -69,7 +75,7 @@ function Account() {
                     *Passwords must be 8-16 characters in length
                 </h3>
                 <button className={"submit-button"} onClick={handleSubmit}>Sign Up</button>
-                <h3 className={"warning"}>{error}</h3>
+                <h3 className={errorStatus ? "warning" : "password-info"}>{error}</h3>
             </div>
 
         </div>
