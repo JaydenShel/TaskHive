@@ -11,6 +11,7 @@ import Collections from "./Collections.jsx";
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useContext(Context);
     const [redirectTo, setRedirectTo] = useState(null);
+    const [profile, setProfile] = useState(false);
 
     //Periodically retrieve cookie and verify token
     useEffect(() => {
@@ -51,6 +52,11 @@ function App() {
         console.log("Account creation");
     }
 
+    const handleProfile = () =>{
+        profile ? setProfile(false) : setProfile(true);
+        console.log("Profile Selected")
+    }
+
     const verifyToken = async () => {
         try {
             const response = await fetch("http://localhost:3000/auth/", {
@@ -81,13 +87,19 @@ function App() {
                     {setRedirectTo(null)} {/* Reset redirectTo after navigating */}
                 </>
             )}
-            <Banner
-                isLoggedIn={isLoggedIn}
-                onLogin={handleLogin}
-                onLogout={handleLogout}
-                onNavigate={handleNavigate}
-                onAccount={handleAccount}
-            />
+            <div>
+                <Banner
+                    isLoggedIn={isLoggedIn}
+                    onLogin={handleLogin}
+                    onLogout={handleLogout}
+                    onNavigate={handleNavigate}
+                    onAccount={handleAccount}
+                    onProfile={handleProfile}
+                />
+                {profile &&
+                    <div>Settings</div>
+                }
+            </div>
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/home" element={<HomePage />} />
