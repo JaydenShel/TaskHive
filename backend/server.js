@@ -28,10 +28,12 @@ app.set("trust proxy", 1);
 const loginRoute = require('./api/login')
 const accountRoute = require('./api/account')
 const authRoute = require('./api/auth')
+const logoutRoute = require('./api/logout')
 
 app.use('/login', loginRoute);
 app.use('/account', accountRoute);
 app.use('/auth', authRoute);
+app.use('/logout', logoutRoute);
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);

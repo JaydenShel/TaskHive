@@ -11,6 +11,7 @@ import Collections from "./Collections.jsx";
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useContext(Context);
     const [redirectTo, setRedirectTo] = useState(null);
+    const [profile, setProfile] = useState(false);
 
     //Periodically retrieve cookie and verify token
     useEffect(() => {
@@ -26,7 +27,15 @@ function App() {
         console.log("User logged in");
     };
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
+        await fetch("http://localhost:3000/logout/", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        })
+
         setIsLoggedIn(false);
         setRedirectTo(null);
         
@@ -41,6 +50,11 @@ function App() {
     const handleAccount = () => {
         setRedirectTo("/account");
         console.log("Account creation");
+    }
+
+    const handleProfile = () =>{
+        profile ? setProfile(false) : setProfile(true);
+        console.log("Profile Selected")
     }
 
     const verifyToken = async () => {
@@ -73,13 +87,19 @@ function App() {
                     {setRedirectTo(null)} {/* Reset redirectTo after navigating */}
                 </>
             )}
-            <Banner
-                isLoggedIn={isLoggedIn}
-                onLogin={handleLogin}
-                onLogout={handleLogout}
-                onNavigate={handleNavigate}
-                onAccount={handleAccount}
-            />
+            <div>
+                <Banner
+                    isLoggedIn={isLoggedIn}
+                    onLogin={handleLogin}
+                    onLogout={handleLogout}
+                    onNavigate={handleNavigate}
+                    onAccount={handleAccount}
+                    onProfile={handleProfile}
+                />
+                {profile &&
+                    <div>Settings</div>
+                }
+            </div>
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/home" element={<HomePage />} />

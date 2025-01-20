@@ -9,6 +9,7 @@ function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [errorStatus, setErrorStatus] = useState(true)
 
     // Get setIsLoggedIn from context
     const [, setIsLoggedIn] = useContext(Context);
@@ -34,6 +35,7 @@ function Login() {
             const message = data.message;
             console.log(message)
 
+            setErrorStatus(false);
             setError("Login Successful");
             setIsLoggedIn(true);
 
@@ -69,7 +71,7 @@ function Login() {
                 <button className="submit-button" onClick={handleSubmit}>
                     Sign In
                 </button>
-                <h3 className={"password-info"}>
+                <h3 className={errorStatus ? "warning" : "password-info"}>
                     {error}
                 </h3>
             </div>

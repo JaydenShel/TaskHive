@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-function TextBox({ label, type = 'text', required, value, onChange }) {
+function TextBox({ label, type = 'text', required, value, onChange}) {
     const handleChange = (event) => {
         if (onChange) {
             onChange(event.target.value);

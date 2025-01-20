@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import '../Style/s_banner.css';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
-function Banner({ isLoggedIn = '', onLogin, onLogout, onAccount }) {  // Set default value for username
+function Banner({ isLoggedIn = '', onLogin, onLogout, onAccount, onProfile}) {  // Set default value for username
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -31,7 +31,16 @@ function Banner({ isLoggedIn = '', onLogin, onLogout, onAccount }) {  // Set def
                         <button onClick={onLogout} className="logout-button">
                             Logout
                         </button>
-                        <div className="profile">{localStorage.getItem('username')}</div>
+                        <div className={"profile-container"} onClick={onProfile}>
+                            <div className={"profile-logo"}>
+                                <img
+                                    src="/path/to/default-user-logo.png"
+                                    alt="User Logo"
+                                />
+                            </div>
+                            <div className="username">{localStorage.getItem('username')}</div>
+                        </div>
+
                     </>
                 ) : !isLoginPage && !isAccountPage ? (
                     <>
@@ -64,6 +73,7 @@ Banner.propTypes = {
     onLogin: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
     onAccount: PropTypes.func.isRequired,
+    onProfile: PropTypes.func.isRequired,
 };
 
 export default Banner;
