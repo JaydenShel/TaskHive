@@ -7,6 +7,7 @@ import Banner from '../Components/Banner.jsx';
 import Settings from '../Pages/Settings.jsx';
 import Account from '../Pages/Account.jsx';
 import Collections from "./Collections.jsx";
+import Profile from './Profile.jsx'
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useContext(Context);
@@ -54,6 +55,7 @@ function App() {
 
     const handleProfile = () =>{
         profile ? setProfile(false) : setProfile(true);
+        setRedirectTo("/profile")
         console.log("Profile Selected")
     }
 
@@ -107,6 +109,7 @@ function App() {
                 <Route path="/account" element={<Account/>} />
                 <Route path ="/settings" element={<Settings />}/>
                 <Route path="/collections" element={<Collections/>}/>
+                <Route path="/profile" element={<Profile/>}/>
             </Routes>
         </BrowserRouter>
     );

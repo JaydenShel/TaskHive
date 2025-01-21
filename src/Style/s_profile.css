@@ -1,0 +1,48 @@
+/* General Styling */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.selection-box {
+    width: 30%;
+    height: calc(100vh - 50px);
+    border-right: 1px solid #ccc;
+    background-color: #f9f9f9;
+    float: left;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.selection-box .option {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 15px 20px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.selection-box .option:hover {
+    background-color: #f2f2f2;
+}
+
+.selection-box .option.active {
+    background-color: #e0e0e0;
+}
+
+.content-box {
+    width: 70%;
+    height: calc(100vh - 50px);
+    float: left;
+    background-color: #ffffff;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.profile-page::after {
+    content: '';
+    display: block;
+    clear: both;
+}
