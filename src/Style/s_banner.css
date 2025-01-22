@@ -1,9 +1,11 @@
 .banner {
     width: 100%;
+    position: relative;
+    z-index: 10;
     background-color: #f5f5f5;
     color: white;
     display: flex;
-    justify-content: center; /* Center the content */
+    justify-content: center;
     align-items: center;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     align-content: center;
@@ -19,7 +21,7 @@
 }
 
 .banner-actions {
-    display: flex;  /* Add this to make buttons align horizontally */
+    display: flex;
     align-items: center;
 }
 

@@ -43,6 +43,6 @@ body {
 
 .profile-page::after {
     content: '';
-    display: block;
+    display: table;
     clear: both;
 }

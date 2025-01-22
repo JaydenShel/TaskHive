@@ -1,5 +1,5 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { useState, useContext, useEffect } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useContext, useEffect } from 'react';
 import { Context } from '../states/LoginContext';
 import HomePage from './Home.jsx';
 import Login from './Login.jsx';
@@ -11,8 +11,6 @@ import Profile from './Profile.jsx'
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useContext(Context);
-    const [redirectTo, setRedirectTo] = useState(null);
-    const [profile, setProfile] = useState(false);
 
     //Periodically retrieve cookie and verify token
     useEffect(() => {
@@ -24,7 +22,6 @@ function App() {
     }, [setIsLoggedIn]);
 
     const handleLogin = () => {
-        setRedirectTo("/login");
         console.log("User logged in");
     };
 
@@ -38,24 +35,19 @@ function App() {
         })
 
         setIsLoggedIn(false);
-        setRedirectTo(null);
         
         console.log("User logged out");
     };
 
     const handleNavigate = (route) => {
-        setRedirectTo(route);
         console.log(`Navigating to ${route}`);
     };
 
     const handleAccount = () => {
-        setRedirectTo("/account");
         console.log("Account creation");
     }
 
     const handleProfile = () =>{
-        profile ? setProfile(false) : setProfile(true);
-        setRedirectTo("/profile")
         console.log("Profile Selected")
     }
 
@@ -83,12 +75,6 @@ function App() {
 
     return (
         <BrowserRouter>
-            {redirectTo && (
-                <>
-                    <Navigate to={redirectTo} replace />
-                    {setRedirectTo(null)} {/* Reset redirectTo after navigating */}
-                </>
-            )}
             <div>
                 <Banner
                     isLoggedIn={isLoggedIn}
@@ -98,9 +84,6 @@ function App() {
                     onAccount={handleAccount}
                     onProfile={handleProfile}
                 />
-                {profile &&
-                    <div>Settings</div>
-                }
             </div>
             <Routes>
                 <Route path="/" element={<HomePage />} />
