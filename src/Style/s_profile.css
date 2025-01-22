@@ -1,12 +1,26 @@
 /* General Styling */
+.profile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    padding-left: 10px;
+    padding-top: 10px;
+    min-height: 100vh;
+    min-width: 180vh;
+    align-items: flex-start;
+    background-color: #f9f9f9;
+}
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;
 }
 
 .selection-box {
-    width: 30%;
-    height: calc(100vh - 50px);
+    width: 100%;
+    height: calc(105vh);
     border-right: 1px solid #ccc;
     background-color: #f9f9f9;
     float: left;
@@ -19,13 +33,14 @@ body {
 .selection-box .option {
     background-color: #ffffff;
     border-bottom: 1px solid #e0e0e0;
-    padding: 15px 20px;
+    padding: 10px 20px;
     cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
+    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
 }
 
 .selection-box .option:hover {
     background-color: #f2f2f2;
+    transform: scale(1.02); /* Slightly expands the text */
 }
 
 .selection-box .option.active {

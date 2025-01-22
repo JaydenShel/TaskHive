@@ -7,17 +7,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     align-content: center;
+    padding: 10px 0;
 }
 
 .banner-logo {
-    font-size: 18px;
+    font-size: 20px;
     padding-right: 40px;
-    padding-bottom: 20px;
     font-weight: bold;
     font-family: 'Georgia', serif;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    color: #2c3e50;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .banner-actions {
@@ -27,18 +28,21 @@
 
 .banner-actions button {
     margin-left: 10px;
-    padding: 8px 16px;
+    padding: 10px 20px;
     font-size: 14px;
+    font-weight: bold;
     background-color: #3498db;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.2s ease-in-out;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
 }
 
 .banner-actions button:hover {
     background-color: #2980b9;
+    transform: scale(1.05);
 }
 
 .logout-button {
@@ -47,13 +51,19 @@
 
 .logout-button:hover {
     background-color: #c0392b;
+    transform: scale(1.05);
 }
 
 .profile {
     margin-left: 15px;
-    color: #1a1a1a;
+    color: #2c3e50;
     font-weight: bold;
     font-size: 16px;
+    transition: color 0.3s;
+}
+
+.profile:hover {
+    color: #3498db;
 }
 
 .profile-container {
@@ -69,15 +79,16 @@
     font-size: 1rem;
     font-weight: bold;
     text-align: center;
-    color: #333;
+    color: #444;
 }
 
 .profile-logo {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     overflow: hidden;
-    border: 2px solid #ccc;
+    border: 3px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .profile-logo img {
