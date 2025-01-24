@@ -33,9 +33,7 @@ function Profile(){
                         <h1 className={"username"}>Account Info</h1>
                     </div>
                 </div>
-                <div>
-                    {contentMap[selectedContent]}
-                </div>
+                {contentMap[selectedContent]}
             </div>
         </div>
     )
