@@ -1,11 +1,24 @@
 import '../Style/s_profile.css'
+import {useState} from "react";
+import Settings from './Profile_Options/Settings.jsx'
+import Account_Info from './Profile_Options/Account_Info.jsx'
 
 function Profile(){
+    const [selectedContent, setSelectedContent] = useState("");
+
+    //Map with various different options to render
+    const contentMap = {
+        settings: <Settings/>,
+        account_info: <Account_Info/>
+    }
+
     const renderPreferences = () => {
+        setSelectedContent("settings")
         console.log("Settings")
     }
 
     const renderAccountInfo = () => {
+        setSelectedContent("account_info")
         console.log("AccountInfo")
     }
 
@@ -20,7 +33,9 @@ function Profile(){
                         <h1 className={"username"}>Account Info</h1>
                     </div>
                 </div>
-
+                <div>
+                    {contentMap[selectedContent]}
+                </div>
             </div>
         </div>
     )

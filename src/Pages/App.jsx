@@ -4,10 +4,11 @@ import { Context } from '../states/LoginContext';
 import HomePage from './Home.jsx';
 import Login from './Login.jsx';
 import Banner from '../Components/Banner.jsx';
-import Settings from '../Pages/Settings.jsx';
+import Settings from './Profile_Options/Settings.jsx';
 import Account from '../Pages/Account.jsx';
 import Collections from "./Collections.jsx";
 import Profile from './Profile.jsx'
+import Reset from './reset.jsx'
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useContext(Context);
@@ -93,6 +94,7 @@ function App() {
                 <Route path ="/settings" element={<Settings />}/>
                 <Route path="/collections" element={<Collections/>}/>
                 <Route path="/profile" element={<Profile/>}/>
+                <Route path="/reset" element={<Reset/>}/>
             </Routes>
         </BrowserRouter>
     );
