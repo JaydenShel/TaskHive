@@ -1,4 +1,3 @@
-const fs = require("fs")
 const S3rver = require("s3rver")
 
 //Create local s3rver with a single bucket for profile images

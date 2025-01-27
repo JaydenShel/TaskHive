@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, } from 'react-router-dom';
+import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import { useContext, useEffect } from 'react';
 import { Context } from '../states/LoginContext';
 import HomePage from './Home.jsx';
@@ -11,6 +11,7 @@ import Profile from './Profile.jsx'
 import Reset from './reset.jsx'
 
 function App() {
+    const navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useContext(Context);
 
     //Periodically retrieve cookie and verify token
@@ -36,7 +37,7 @@ function App() {
         })
 
         setIsLoggedIn(false);
-        
+
         console.log("User logged out");
     };
 

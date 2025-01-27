@@ -3,7 +3,8 @@ import {useState, useEffect} from "react";
 
 function Account_Info() {
     const navigate = useNavigate();
-    const [hasImage, setHasImage] = useState(false)
+    const [hasImage, setHasImage] = useState(false);
+    const [err, setErr] = useState("");
 
     //Load in user image ect. upon render
     useEffect(() =>{
@@ -11,7 +12,7 @@ function Account_Info() {
     }, [])
 
     const handlePasswordReset = () => {
-        navigate("/home/reset")
+        navigate("/reset")
         console.log("User Chose to Reset Password")
     }
 
@@ -20,19 +21,43 @@ function Account_Info() {
         console.log("User can change image.")
     }
 
-    const handleNewUserImage = () =>{
-        console.log("User has no image select one from device.")
+    const loadImage = async () =>{
+         const response = await fetch('http://localhost:3000/load-image/', {
+             headers: {
+                 "content-type": "application/json",
+             },
+             credentials: "include"
+         })
+
+         if(response.status >= 400){
+             setHasImage(false)
+             console.log("No user profile image.")
+         }
+
+
     }
 
-    const loadImage = async () =>{
-         const image = await fetch('', )
+    const uploadImage = async () => {
+        const response = await fetch('http://localhost:3000/upload-image/', {
+            headers: {
+                "content-type": "application/json",
+            },
+            credentials: "include",
+
+        })
+
+        if(response.status >= 400){
+            setErr("Failed to upload image.")
+            console.log("Failed to upload image.")
+        }
     }
 
     return (
         <div>
             <div className={"profile-container"}>
-                <div className={"profile-logo2"} onClick={handleNewUserImage}>
+                <div className={"profile-logo2"}>
                     {hasImage && <button className={"submit-button"} onClick={handleUserImage}></button> }
+                    {!hasImage && <button className={"profile-upload-button"} onClick={uploadImage}>Upload Image</button>}
                 </div>
             </div>
             <div className={"username"}>
