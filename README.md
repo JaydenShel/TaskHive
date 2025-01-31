@@ -6,7 +6,7 @@ This repository serves as a sandbox for experimenting with and implementing full
 - **Frontend:** React, HTML, CSS, JavaScript
 - **Backend:** Node.js, Express.js, Database (PostgreSQL or MongoDB)
 - **APIs:** RESTful API integrations
-- **Deployment:** Heroku (or any other platform you're using)
+- **Deployment:** Heroku
 
 ### Future Plans:
 - Continue adding new features and testing different technologies
