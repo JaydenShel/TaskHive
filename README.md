@@ -1,8 +1,14 @@
-# React + Vite
+# FullStackSandbox
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repository serves as a sandbox for experimenting with and implementing full-stack development techniques. The project is a work-in-progress, with no specific final product or identity yet. The goal is to practice various aspects of building a web application, including frontend and backend development, API integration, and deployment.
 
-Currently, two official plugins are available:
+### What's Inside:
+- **Frontend:** React, HTML, CSS, JavaScript
+- **Backend:** Node.js, Express.js, Database (PostgreSQL or MongoDB)
+- **APIs:** RESTful API integrations
+- **Deployment:** Heroku (or any other platform you're using)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Future Plans:
+- Continue adding new features and testing different technologies
+- Work on UI/UX design and improving responsiveness
+- Potentially transform into a fully-fledged web app with specific use cases in mind
