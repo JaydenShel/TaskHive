@@ -1,14 +1,30 @@
-# FullStackSandbox
+# 🎨 SynthAI: AI-Powered Image Transformation
 
-This repository serves as a sandbox for experimenting with and implementing full-stack development techniques. The project is a work-in-progress, with no specific final product or identity yet. The goal is to practice various aspects of building a web application, including frontend and backend development, API integration, and deployment.
+## 📌 Overview  
+**SynthAI** is a web application that utilizes **machine learning algorithms** to modify images into different artistic styles. Users can **upload images, choose a transformation style, and process them using AI models**. The application features a **React + Node.js frontend** and a **FastAPI backend** with **Celery and Redis** for task management.  
 
-### What's Inside:
-- **Frontend:** React, HTML, CSS, JavaScript
-- **Backend:** Node.js, Express.js, Database (PostgreSQL or MongoDB)
-- **APIs:** RESTful API integrations
-- **Deployment:** Heroku
+## 🚀 Features  
+- ✅ **User Authentication** – Secure login & profile management.  
+- ✅ **Image Upload** – Upload images via the web interface.  
+- ✅ **Style Selection** – Choose from various artistic styles (Impressionist, Cubism, Abstract, etc.).  
+- ✅ **AI Image Processing** – Machine learning models apply transformations to images.  
+- ✅ **Task Queue Processing** – Backend tasks run asynchronously via **Celery & Redis**.  
+- ✅ **Image History** – Users can save and access transformed images anytime.  
 
-### Future Plans:
-- Continue adding new features and testing different technologies
-- Work on UI/UX design and improving responsiveness
-- Potentially transform into a fully-fledged web app with specific use cases in mind
+## 🛠️ Tech Stack  
+### **Frontend (React + Node.js)**
+- **React** – UI framework for seamless user interactions.  
+- **Node.js + Express** – Manages authentication and API routes.  
+- **Axios** – Handles HTTP requests between frontend and backend.  
+
+### **Backend (FastAPI)**
+- **FastAPI** – High-performance backend for handling API requests.  
+- **Celery + Redis** – Task queue system for processing images asynchronously.  
+- **Pillow / OpenCV / ML Models** – Image transformations via machine learning.  
+
+### **Database**
+- **PostgreSQL / MongoDB** (TBD) – Storing user and task data.  
+
+## 🏗️ Project Status  
+- ✅ **Frontend (React + Node.js)** – Authentication & UI functionality working.  
+- 🏗️ **Backend (FastAPI + Celery)** – Under construction, task processing in progress (). 
