@@ -3,6 +3,9 @@
 ## 📌 Overview  
 **SynthAI** is a web application that utilizes **machine learning algorithms** to modify images into different artistic styles. Users can **upload images, choose a transformation style, and process them using AI models**. The application features a **React + Node.js frontend** and a **FastAPI backend** with **Celery and Redis** for task management.  
 
+![image](https://github.com/user-attachments/assets/2a5db6c2-cbfd-47b3-8914-a6bb68de3621)
+
+
 ## 🚀 Features  
 - ✅ **User Authentication** – Secure login & profile management.  
 - ✅ **Image Upload** – Upload images via the web interface.  
