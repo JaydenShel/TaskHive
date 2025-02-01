@@ -11,7 +11,6 @@ import Profile from './Profile.jsx'
 import Reset from './reset.jsx'
 
 function App() {
-    const navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useContext(Context);
 
     //Periodically retrieve cookie and verify token
