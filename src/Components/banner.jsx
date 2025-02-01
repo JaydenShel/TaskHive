@@ -31,7 +31,10 @@ function Banner({ isLoggedIn = '', onLogin, onLogout, onAccount, onProfile}) {  
                         <button onClick={onLogout} className="logout-button">
                             Logout
                         </button>
-                        <div className={"profile-container"} onClick={onProfile}>
+                        <div className={"profile-container"} onClick={() => {
+                            onProfile()
+                            navigate('/profile')
+                        }}>
                             <div className={"profile-logo"}>
                                 <img
                                     src="/path/to/default-user-logo.png"
