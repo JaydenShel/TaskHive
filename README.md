@@ -1,4 +1,4 @@
-# 🎨 SynthAI: AI-Powered Image Transformation
+# 🎨 AI-Powered Image Transformation
 
 ## 📌 Overview  
 **SynthAI** is a web application that utilizes **machine learning algorithms** to modify images into different artistic styles. Users can **upload images, choose a transformation style, and process them using AI models**. The application features a **React + Node.js frontend** and a **FastAPI backend** with **Celery and Redis** for task management.  
