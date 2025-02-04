@@ -28,7 +28,10 @@ function Banner({ isLoggedIn = '', onLogin, onLogout, onAccount, onProfile}) {  
                         <Link to="/settings">
                             <button>Settings</button>
                         </Link>
-                        <button onClick={onLogout} className="logout-button">
+                        <button onClick={() => {
+                            navigate('/home')
+                            onLogout()
+                        }} className="logout-button">
                             Logout
                         </button>
                         <div className={"profile-container"} onClick={() => {
