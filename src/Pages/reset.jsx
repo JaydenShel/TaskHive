@@ -10,7 +10,7 @@ function Reset() {
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
-    const [errorStatus, setErrorStatus] = useState(true)
+    const [errorStatus, setErrorStatus] = useState(false)
 
     // Get setIsLoggedIn from context
     const [isLoggedIn, setIsLoggedIn] = useContext(Context);
@@ -23,36 +23,32 @@ function Reset() {
         }
 
         //POST request to send old password and new password, reset password
-        const response = await fetch('http://localhost:3000/login/', {
-            method: "POST",
-            headers: {
-                "content-type": "application/json",
-            },
-            credentials: 'include',
-            body: JSON.stringify({currPassword, newPassword})
-        })
+        try{
+            const response = async () => {
+                await fetch("http://localhost:3000/reset/", {
+                    headers: {
+                        "content-type": "application/json"
+                    },
+                    body: JSON.stringify({currPassword, newPassword})
+                })
+            }
 
-        if(response.status >= 400){
-            setError("Login failed");
+            if(response.status >= 400){
+                setIsLoggedIn(false)
+                navigate('/home')
+                setError("Password reset failed");
+            }
+            else{
+                navigate('/home')
+            }
+
         }
-        else{
-            //Retrieve response data and token, set token in session storage
-            const data = await response.json();
-            const message = data.message;
-            console.log(message)
 
-            setErrorStatus(false);
-            setError("Password Reset");
-
-            //Retrieve username and store in localStorage
-            const username = data.username;
-            localStorage.setItem('username', username);
-
-            //Navigate back to home page
-            setTimeout( () => {
-                navigate('/');
-            }, 1000);
+        catch(error){
+            setErrorStatus(true)
+            setError(error)
         }
+
 
     };
 
