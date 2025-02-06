@@ -5,6 +5,7 @@ function Account_Info() {
     const navigate = useNavigate();
     const [hasImage, setHasImage] = useState(false);
     const [err, setErr] = useState("");
+    const [errStatus, setErrorStatus] = useState(false)
 
     //Load in user image ect. upon render
     useEffect(() =>{
@@ -12,7 +13,30 @@ function Account_Info() {
     }, [])
 
     const handlePasswordReset = () => {
-        navigate("/reset")
+        // Authenticate, then direct to reset password page, child of login page
+        try{
+            const response = async () => {
+                await fetch('http://localhost:3000/auth/', {
+                    method: "POST",
+                    headers: {
+                        'content-type': 'application/json',
+                    },
+                    credentials: "include",
+                })
+            }
+
+            if(response.status > 400){
+                console.log("Failed to authenticate user.")
+            }
+            else{
+                navigate("/reset")
+            }
+        }
+        catch(error){
+            setErrorStatus(true)
+            setErr(error)
+        }
+
         console.log("User Chose to Reset Password")
     }
 
@@ -53,6 +77,7 @@ function Account_Info() {
     }
 
     return (
+        // Create a pop-up alert if something goes wrong
         <div>
             <div className={"profile-container"}>
                 <div className={"profile-logo2"}>
