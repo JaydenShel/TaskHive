@@ -5,6 +5,7 @@ function Account_Info() {
     const navigate = useNavigate();
     const [hasImage, setHasImage] = useState(false);
     const [err, setErr] = useState("");
+    const [errStatus, setErrorStatus] = useState(false)
 
     //Load in user image ect. upon render
     useEffect(() =>{
@@ -32,6 +33,7 @@ function Account_Info() {
             }
         }
         catch(error){
+            setErrorStatus(true)
             setErr(error)
         }
 
@@ -75,6 +77,7 @@ function Account_Info() {
     }
 
     return (
+        // Create a pop-up alert if something goes wrong
         <div>
             <div className={"profile-container"}>
                 <div className={"profile-logo2"}>
