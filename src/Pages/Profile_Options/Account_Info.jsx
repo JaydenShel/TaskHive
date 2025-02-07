@@ -12,18 +12,17 @@ function Account_Info() {
         loadImage().then(r => console.log("Image Loaded"));
     }, [])
 
-    const handlePasswordReset = () => {
+    const handlePasswordReset = async () => {
         // Authenticate, then direct to reset password page, child of login page
         try{
-            const response = async () => {
-                await fetch('http://localhost:3000/auth/', {
-                    method: "POST",
-                    headers: {
-                        'content-type': 'application/json',
-                    },
-                    credentials: "include",
-                })
-            }
+            const response = await fetch('http://localhost:3000/auth/', {
+                method: "GET",
+                headers: {
+                    'content-type': 'application/json',
+                },
+                credentials: "include",
+            })
+
 
             if(response.status > 400){
                 console.log("Failed to authenticate user.")
