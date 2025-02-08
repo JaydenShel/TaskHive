@@ -14,11 +14,13 @@ function Banner({ isLoggedIn = '', onLogin, onLogout, onAccount, onProfile}) {  
     return (
         <div className="banner">
             {/* Left: App Title */}
-            <img className="image-logo" src={logo} alt={"TaskHive Logo"} onClick={() => {
-                navigate('/home')
-            }}/>
-            <div className="banner-logo">
-                <h1>TaskHive</h1>
+            <div className={"banner-actions"}>
+                <img className="image-logo" src={logo} alt={"TaskHive Logo"} onClick={() => {
+                    navigate('/home')
+                }}/>
+                <div className="banner-logo">
+                    <h1>TaskHive</h1>
+                </div>
             </div>
 
             {/* Right: Navigation/Buttons */}

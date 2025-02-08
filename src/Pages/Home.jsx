@@ -56,6 +56,11 @@ const HomePage = () => {
 
     return (
         <div className="homepage">
+            {isLoggedIn &&
+            <div>
+
+            </div>
+            }
             <div className={"section"}>
                 <div>
                     <h1 className={"home_header-font"}>TaskHive</h1>
@@ -69,9 +74,9 @@ const HomePage = () => {
                         using our integrated machine learning techniques. Save your creations to your profile and access
                         them anytime.</p>
                 </div>
-                <button className={"submit-button"} onClick={() => {
+                {!isLoggedIn && <button className={"submit-button"} onClick={() => {
                     navigate('/account')
-                }}>Sign Up</button>
+                }}>Sign Up</button>}
             </div>
 
             <div className={"section2"}>
