@@ -1,5 +1,7 @@
 import { useState, useContext } from 'react';
+import {useNavigate} from "react-router-dom";
 import '../Style/s_home.css';
+import homeImage1 from '../img/TaskHive.jpg'
 import {Context} from "../states/LoginContext.jsx";
 
 const HomePage = () => {
@@ -7,6 +9,7 @@ const HomePage = () => {
     const [style, setStyle] = useState('');
     const [modifiedImage, setModifiedImage] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useContext(Context);
+    const navigate = useNavigate();
 
     // Handle image upload
     const handleImageUpload = (e) => {
@@ -54,10 +57,27 @@ const HomePage = () => {
     return (
         <div className="homepage">
             <div className={"section"}>
-                <h1 className={"home_header-font"}>SynthAI: Transform Your Images</h1>
-                <p className={"home_description-font"}>Sign up to upload your own images and customize their style
-                    using our integrated machine learning techniques. Save your creations to your profile and access
-                    them anytime.</p>
+                <div>
+                    <h1 className={"home_header-font"}>TaskHive</h1>
+                    <h1 className={"home_description-font"}>Automate Tasks, Elevate Team Efficiency</h1>
+                </div>
+                <div>
+                    <img src={homeImage1} alt={"HomeImg1"}></img>
+                </div>
+                <div className={"home-text-box"}>
+                    <p className={"home_description-font"}>Sign up to upload your own images and customize their style
+                        using our integrated machine learning techniques. Save your creations to your profile and access
+                        them anytime.</p>
+                </div>
+                <button className={"submit-button"} onClick={() => {
+                    navigate('/account')
+                }}>Sign Up</button>
+            </div>
+
+            <div className={"section2"}>
+                <div>
+                    <img src={""}></img>
+                </div>
             </div>
 
             {isLoggedIn && (
