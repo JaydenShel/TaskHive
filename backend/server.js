@@ -32,14 +32,16 @@ const logoutRoute = require('./api/logout')
 const loadProfileImage = require('./api/loadProfileImage')
 const uploadImage = require('./services/image_upload')
 const resetPassword = require('./api/reset')
+const fetchBoards = require('./api/fetchBoards')
 
-app.use('/login', loginRoute);
-app.use('/account', accountRoute);
-app.use('/auth', authRoute);
-app.use('/logout', logoutRoute);
-app.use('/load-image', loadProfileImage);
+app.use('/login', loginRoute)
+app.use('/account', accountRoute)
+app.use('/auth', authRoute)
+app.use('/logout', logoutRoute)
+app.use('/load-image', loadProfileImage)
 app.use('/upload-image', uploadImage)
 app.use('/reset', resetPassword)
+app.use('fetchBoards', fetchBoards)
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);

@@ -1,7 +1,8 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import {useNavigate} from "react-router-dom";
 import '../Style/s_home.css';
 import homeImage1 from '../img/TaskHive.jpg'
+import plusIcon from '../img/PlusIcon.png'
 import {Context} from "../states/LoginContext.jsx";
 
 const HomePage = () => {
@@ -10,6 +11,30 @@ const HomePage = () => {
     const [modifiedImage, setModifiedImage] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useContext(Context);
     const navigate = useNavigate();
+
+    // Upon loading attempt to load user boards
+    useEffect(() => {
+        // Prevent unnecessary calls
+        if(!isLoggedIn) return
+
+        const fetchBoards = async () =>{
+            try{
+                const response = await fetch('http://localhost:3000/fetchBoards', {
+                    method: "GET",
+                    headers: {
+                        "content-type": "application/json"
+                    }
+                })
+
+                if(response.status > 400){
+                    console.log("Server error failed to fetch boards.")
+                }
+            }
+            catch(err){
+                console.log("Failed to fetch board data:", err)
+            }
+        }
+    }, [isLoggedIn])
 
     // Handle image upload
     const handleImageUpload = (e) => {
@@ -55,12 +80,23 @@ const HomePage = () => {
     };
 
     return (
-        <div className="homepage">
-            {isLoggedIn &&
-            <div>
+        <div className={"homepage"}>
 
+        {isLoggedIn && (<div>
+                <div className={"home_header-font"}>My Boards</div>
+                <div>
+                    <div className={"board-compartment"}>
+                        <div className="board-card">
+                            <div className="board-name">New Board</div>
+                            <div src={plusIcon} alt={"plusIcon"}></div>
+                            <div className="board-image" style={{backgroundImage: `url(${image})`}}></div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            }
+        )}
+
+            <div className="home-info">
             <div className={"section"}>
                 <div>
                     <h1 className={"home_header-font"}>TaskHive</h1>
@@ -124,6 +160,7 @@ const HomePage = () => {
                 </div>
             )}
 
+        </div>
         </div>
     );
 };
