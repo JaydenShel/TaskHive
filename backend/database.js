@@ -17,17 +17,28 @@ client.connect()
         console.error('Database connection error:', err.stack);
     });
 
-//Take in any query and value for said query, send to database
-const queryDatabase = async (query, params) =>{
-    try{
-        const result = await client.query(query, params);
-        return result.rows;
-    }
-    catch(error){
+// Handles both single and multiple queries while preserving parameter passing
+const queryDatabase = async (queryOrQueries, params) => {
+    try {
+        if (typeof queryOrQueries === "string") {
+            // Single query case
+            const result = await client.query(queryOrQueries, params);
+            return result.rows;
+        } else if (Array.isArray(queryOrQueries)) {
+            // Multiple queries case
+            const results = await Promise.all(
+                queryOrQueries.map(({ query, params }) => client.query(query, params))
+            );
+            return results.map(result => result.rows);
+        } else {
+            throw new Error("Invalid query format");
+        }
+    } catch (error) {
         console.error("Problem executing query:", error);
         throw error;
     }
-}
+};
+
 
 //Create credentials table (Username, Password, ID)
 queryDatabase(`

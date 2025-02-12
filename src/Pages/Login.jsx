@@ -26,7 +26,7 @@ function Login() {
             body: JSON.stringify({username, password})
         })
 
-        if(response.status >= 400){
+        if(response.status >= 300){
             setError("Login failed");
         }
         else{
