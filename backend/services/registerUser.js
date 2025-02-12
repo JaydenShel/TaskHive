@@ -11,6 +11,8 @@ async function registerUser(username, password) {
 
     //Insert into the database
     try {
+        //Make sure username is unique
+
         await queryDatabase(
             "INSERT INTO credentials (username, password, created_at) VALUES ($1, $2, $3)",
             [username, hash, created_at]

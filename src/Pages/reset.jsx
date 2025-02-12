@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Reset() {
     const navigate = useNavigate();
-    const [currPassword, setCurrPassword] = useState("");
+    const [password, setPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
@@ -17,6 +17,8 @@ function Reset() {
 
     //Upon user pressing the submit button (user is logged in)
     const handleSubmit = async () => {
+        console.log("hello")
+
         //Determine is user is logged in, if not forgot password
         if(!isLoggedIn){
             console.log("User is not logged in (Forgot Password functionality in progress)")
@@ -24,22 +26,25 @@ function Reset() {
 
         //POST request to send old password and new password, reset password
         try{
-            const response = async () => {
-                await fetch("http://localhost:3000/reset/", {
-                    headers: {
-                        "content-type": "application/json"
-                    },
-                    body: JSON.stringify({currPassword, newPassword})
-                })
-            }
+            const response = await fetch("http://localhost:3000/reset/", {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json"
+                },
+                credentials: "include",
+                body: JSON.stringify({password, newPassword, confirmPassword})
+            })
+
+            const data = await response.json()
+            setErrorStatus(true)
 
             if(response.status >= 400){
-                setIsLoggedIn(false)
-                navigate('/home')
-                setError("Password reset failed");
+                console.log("Password Reset Failed")
+                setError(data.message)
             }
             else{
-                navigate('/home')
+                setIsLoggedIn(false)
+                navigate('/login')
             }
 
         }
@@ -59,8 +64,8 @@ function Reset() {
                     label="Enter Current Password"
                     type="password"
                     required
-                    value={currPassword}
-                    onChange={setCurrPassword}
+                    value={password}
+                    onChange={setPassword}
                 />
                 <TextBox
                     label="Enter New Password"
@@ -77,7 +82,7 @@ function Reset() {
                     onChange={setConfirmPassword}
                 />
                 <button className="submit-button" onClick={handleSubmit}>
-                    Sign In
+                    Reset Password
                 </button>
 
                 <h3 className={errorStatus ? "warning" : "password-info"}>

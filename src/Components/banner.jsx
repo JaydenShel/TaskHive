@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import '../Style/s_banner.css';
+import logo from '../img/TaskHiveLogo.png'
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 function Banner({ isLoggedIn = '', onLogin, onLogout, onAccount, onProfile}) {  // Set default value for username
@@ -13,8 +14,13 @@ function Banner({ isLoggedIn = '', onLogin, onLogout, onAccount, onProfile}) {  
     return (
         <div className="banner">
             {/* Left: App Title */}
-            <div className="banner-logo">
-                <h1 className="banner-title">Synth</h1>
+            <div className={"banner-actions"}>
+                <img className="image-logo" src={logo} alt={"TaskHive Logo"} onClick={() => {
+                    navigate('/home')
+                }}/>
+                <div className="banner-logo">
+                    <h1>TaskHive</h1>
+                </div>
             </div>
 
             {/* Right: Navigation/Buttons */}
@@ -60,12 +66,12 @@ function Banner({ isLoggedIn = '', onLogin, onLogout, onAccount, onProfile}) {  
                             Login
                         </button>
                         <button
-                            onClick={() =>{
+                            onClick={() => {
                                 onAccount();
                                 navigate('/account');
                             }}
                         >
-                        Sign Up
+                            Sign Up
                         </button>
                     </>
                 ) : null}

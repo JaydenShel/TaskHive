@@ -1,5 +1,8 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
+import {useNavigate} from "react-router-dom";
 import '../Style/s_home.css';
+import homeImage1 from '../img/TaskHive.jpg'
+import plusIcon from '../img/PlusIcon.png'
 import {Context} from "../states/LoginContext.jsx";
 
 const HomePage = () => {
@@ -7,6 +10,31 @@ const HomePage = () => {
     const [style, setStyle] = useState('');
     const [modifiedImage, setModifiedImage] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useContext(Context);
+    const navigate = useNavigate();
+
+    // Upon loading attempt to load user boards
+    useEffect(() => {
+        // Prevent unnecessary calls
+        if(!isLoggedIn) return
+
+        const fetchBoards = async () =>{
+            try{
+                const response = await fetch('http://localhost:3000/fetchBoards', {
+                    method: "GET",
+                    headers: {
+                        "content-type": "application/json"
+                    }
+                })
+
+                if(response.status > 400){
+                    console.log("Server error failed to fetch boards.")
+                }
+            }
+            catch(err){
+                console.log("Failed to fetch board data:", err)
+            }
+        }
+    }, [isLoggedIn])
 
     // Handle image upload
     const handleImageUpload = (e) => {
@@ -52,12 +80,45 @@ const HomePage = () => {
     };
 
     return (
-        <div className="homepage">
+        <div className={"homepage"}>
+
+        {isLoggedIn && (<div>
+                <div className={"home_header-font"}>My Boards</div>
+                <div>
+                    <div className={"board-compartment"}>
+                        <div className="board-card">
+                            <div className="board-name">New Board</div>
+                            <div src={plusIcon} alt={"plusIcon"}></div>
+                            <div className="board-image" style={{backgroundImage: `url(${image})`}}></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )}
+
+            <div className="home-info">
             <div className={"section"}>
-                <h1 className={"home_header-font"}>SynthAI: Transform Your Images</h1>
-                <p className={"home_description-font"}>Sign up to upload your own images and customize their style
-                    using our integrated machine learning techniques. Save your creations to your profile and access
-                    them anytime.</p>
+                <div>
+                    <h1 className={"home_header-font"}>TaskHive</h1>
+                    <h1 className={"home_description-font"}>Automate Tasks, Elevate Team Efficiency</h1>
+                </div>
+                <div>
+                    <img src={homeImage1} alt={"HomeImg1"}></img>
+                </div>
+                <div className={"home-text-box"}>
+                    <p className={"home_description-font"}>Sign up to upload your own images and customize their style
+                        using our integrated machine learning techniques. Save your creations to your profile and access
+                        them anytime.</p>
+                </div>
+                {!isLoggedIn && <button className={"submit-button"} onClick={() => {
+                    navigate('/account')
+                }}>Sign Up</button>}
+            </div>
+
+            <div className={"section2"}>
+                <div>
+                    <img src={""}></img>
+                </div>
             </div>
 
             {isLoggedIn && (
@@ -99,6 +160,7 @@ const HomePage = () => {
                 </div>
             )}
 
+        </div>
         </div>
     );
 };

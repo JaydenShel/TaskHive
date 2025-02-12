@@ -1,8 +1,9 @@
 .banner {
     width: 100%;
+    height: 125px;
     position: relative;
     z-index: 10;
-    background: linear-gradient(135deg, #d5daf1, #7592f4);
+    background: linear-gradient(135deg, #aa93fb, #a967f1);
     color: white;
     display: flex;
     justify-content: space-between;
@@ -16,7 +17,7 @@
 }
 
 .banner-logo {
-    font-size: 24px;
+    font-size: 12px;
     font-weight: bold;
     font-family: 'Georgia', serif;
     color: white;
@@ -167,7 +168,7 @@
     .banner-actions {
         flex-direction: column;
         gap: 10px;
-        margin-top: 10px;
+        margin-top: 20px;
     }
 
     .profile-container {
@@ -178,6 +179,10 @@
     .profile-logo {
         width: 40px;
         height: 40px;
+    }
+
+    .image-logo {
+        max-height: 100px;
     }
 
     .banner-logo {
