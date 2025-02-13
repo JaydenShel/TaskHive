@@ -1,0 +1,15 @@
+.selection-grid {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background-color: #ece0ff;
+    border-radius: 5px;
+    border-color: #1a1a1a;
+}
+
+.display-grid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 50px;
+}

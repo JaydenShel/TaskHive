@@ -52,7 +52,7 @@ const schemaQueries = [
     { query: `CREATE TABLE IF NOT EXISTS boards (
         id SERIAL PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
-        created_by INTEGER REFERENCES users(id) ON DELETE CASCADE,
+        created_by INTEGER REFERENCES credentials(id) ON DELETE CASCADE,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );` },
 

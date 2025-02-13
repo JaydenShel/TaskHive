@@ -53,6 +53,10 @@ const HomePage = () => {
         setStyle(e.target.value);
     };
 
+    const handleNewBoard = () => {
+        navigate('/create-b')
+    }
+
     //Simulate image modification via a ML model (FastAPI)
     const handleImageModification = async () => {
         if (!image || !style) {
@@ -87,6 +91,7 @@ const HomePage = () => {
                 <div>
                     <div className={"board-compartment"}>
                         <div className="board-card">
+                            <button className={"submit-button"} onClick={handleNewBoard}>Add</button>
                             <div className="board-name">New Board</div>
                             <div src={plusIcon} alt={"plusIcon"}></div>
                             <div className="board-image" style={{backgroundImage: `url(${image})`}}></div>
