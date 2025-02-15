@@ -36,7 +36,7 @@ function CreateB() {
     }
 
     return(
-        <div>
+        <div className={"homepage"}>
             <div className={"selection-grid"}>
                 <TextBox
                     label="Enter Board Name"
