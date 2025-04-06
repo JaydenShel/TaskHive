@@ -87,4 +87,26 @@ const schemaQueries = [
     }
 })();
 
-module.exports = queryDatabase;
+// Get board information
+const getUserBoardsWithTasks = async (userId) => {
+    const query = "        SELECT\n" +
+        "            b.id AS board_id,\n" +
+        "            b.name AS board_name,\n" +
+        "            c.id AS column_id,\n" +
+        "            c.name AS column_name,\n" +
+        "            c.position,\n" +
+        "            t.id AS task_id,\n" +
+        "            t.title AS task_title,\n" +
+        "            t.description,\n" +
+        "            t.priority,\n" +
+        "            t.due_date\n" +
+        "        FROM boards b\n" +
+        "        JOIN columns c ON b.id = c.board_id\n" +
+        "        LEFT JOIN tasks t ON c.id = t.column_id\n" +
+        "        WHERE b.created_by = $1\n" +
+        "        ORDER BY b.id, c.position, t.id;";
+    return await queryDatabase(query, [userId]);
+};
+
+
+module.exports = {queryDatabase, getUserBoardsWithTasks};

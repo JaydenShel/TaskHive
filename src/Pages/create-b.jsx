@@ -7,21 +7,21 @@ function CreateB() {
     const [err, setErr] = useState('');
     const [errStatus, setErrStatus] = useState(false);
     const [displayStatus, setDisplayStatus] = useState(false);
+    const username = sessionStorage.getItem("username");
 
-    const handleBoardSubmit = () => {
+    const handleBoardSubmit = async () => {
+        console.log(username)
         try{
-            const response = async () => {
-                await fetch('http://localhost:8080/createBoards', {
+            const response = await fetch('http://localhost:3000/createBoards', {
                     method: "POST",
                     headers: {
                         "content-type": 'application/json',
                     },
                     credentials: "include",
-                    body: JSON.stringify({boardName})
+                    body: JSON.stringify({boardName, username})
                 })
-            }
 
-            if(response >= 300){
+            if(response.status >= 300){
                 console.log("Failed to create board")
 
                 //Set response eof the error
@@ -29,6 +29,7 @@ function CreateB() {
 
             }
         }
+        
         catch(err){
             setErrStatus(true)
             setErr(err)
