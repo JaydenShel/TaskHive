@@ -6,7 +6,7 @@ router.post("/", async (req, res) => {
     const { boardName, userName } = req.body;
 
     try {
-        // 1. Get user ID from username
+        //Get user ID from username
         const userResult = await queryDatabase(
             "SELECT id FROM credentials WHERE username = $1",
             [userName]
@@ -18,7 +18,7 @@ router.post("/", async (req, res) => {
 
         const userId = userResult[0].id;
 
-        // 2. Insert new board
+        //Insert new board
         await queryDatabase(
             "INSERT INTO boards (name, created_by, created_at) VALUES ($1, $2, CURRENT_TIMESTAMP)",
             [boardName, userId]

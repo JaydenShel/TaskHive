@@ -87,11 +87,4 @@ const schemaQueries = [
     }
 })();
 
-// Get board information
-const retrieveUserBoards = async (userId) => {
-    const query = "SELECT B.* FROM boards JOIN credentials C ON B.created_by = C.id WHERE B.created_by = $1";
-    return await queryDatabase(query, [userId]);
-};
-
-
-module.exports = {queryDatabase, retrieveUserBoards};
+module.exports = queryDatabase;
