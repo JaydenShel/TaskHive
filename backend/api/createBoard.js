@@ -1,15 +1,35 @@
-const express = require("express")
-const router = express.Router()
-const queryDatabase = require("../database")
+const express = require("express");
+const router = express.Router();
+const queryDatabase = require("../database");
 
-router.post('/', async (req, res) => {
-    const {boardName} = req.body
-    console.log(boardName)
+router.post("/", async (req, res) => {
+    const { boardName, userName } = req.body;
 
-    //queryDatabase("SELECT id FROM credentials WHERE username = 'das'");
-    //queryDatabase("INSERT INTO boards (name, createdBy, createdAt) VALUES ($1, $2, $3)", [boardName])
+    try {
+        // 1. Get user ID from username
+        const userResult = await queryDatabase(
+            "SELECT id FROM credentials WHERE username = $1",
+            [userName]
+        );
 
-    return res.status(200)
-})
+        if (userResult.length === 0) {
+            return res.status(404).json({ error: "User not found" });
+        }
 
-module.exports = router
+        const userId = userResult[0].id;
+
+        // 2. Insert new board
+        await queryDatabase(
+            "INSERT INTO boards (name, created_by, created_at) VALUES ($1, $2, CURRENT_TIMESTAMP)",
+            [boardName, userId]
+        );
+
+        return res.status(201).json({ message: "Board created successfully" });
+
+    } catch (error) {
+        console.error("Error creating board:", error);
+        return res.status(500).json({ error: "Server error creating board" });
+    }
+});
+
+module.exports = router;
