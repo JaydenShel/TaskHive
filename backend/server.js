@@ -42,7 +42,7 @@ app.use('/logout', logoutRoute)
 app.use('/load-image', loadProfileImage)
 app.use('/upload-image', uploadImage)
 app.use('/reset', resetPassword)
-app.use('fetchBoards', fetchBoards)
+app.use('/fetchBoards', fetchBoards)
 app.use('/createBoards', createBoard)
 
 app.listen(port, () => {

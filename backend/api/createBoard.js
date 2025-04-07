@@ -3,13 +3,15 @@ const router = express.Router();
 const queryDatabase = require("../database");
 
 router.post("/", async (req, res) => {
-    const { boardName, userName } = req.body;
+    console.log(req.body)
+    const { boardName, username } = req.body;
+    console.log(username)
 
     try {
         //Get user ID from username
         const userResult = await queryDatabase(
             "SELECT id FROM credentials WHERE username = $1",
-            [userName]
+            [username]
         );
 
         if (userResult.length === 0) {
@@ -17,12 +19,14 @@ router.post("/", async (req, res) => {
         }
 
         const userId = userResult[0].id;
+        console.log(userId)
 
         //Insert new board
         await queryDatabase(
             "INSERT INTO boards (name, created_by, created_at) VALUES ($1, $2, CURRENT_TIMESTAMP)",
             [boardName, userId]
         );
+
 
         return res.status(201).json({ message: "Board created successfully" });
 

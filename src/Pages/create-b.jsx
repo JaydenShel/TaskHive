@@ -7,10 +7,9 @@ function CreateB() {
     const [err, setErr] = useState('');
     const [errStatus, setErrStatus] = useState(false);
     const [displayStatus, setDisplayStatus] = useState(false);
-    const username = sessionStorage.getItem("username");
+    const username = localStorage.getItem('username');
 
     const handleBoardSubmit = async () => {
-        console.log(username)
         try{
             const response = await fetch('http://localhost:3000/createBoards', {
                     method: "POST",

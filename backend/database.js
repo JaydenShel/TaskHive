@@ -65,16 +65,17 @@ const schemaQueries = [
     );` },
 
     { query: `CREATE TABLE IF NOT EXISTS tasks (
-        id SERIAL PRIMARY KEY,
-        board_id INTEGER REFERENCES boards(id) ON DELETE CASCADE,
-        column_id INTEGER REFERENCES columns(id) ON DELETE CASCADE,
-        title VARCHAR(255) NOT NULL,
-        description TEXT,
-        assigned_to INTEGER REFERENCES users(id) ON DELETE SET NULL,
-        due_date TIMESTAMP,
-        priority VARCHAR(10) CHECK (priority IN ('Low', 'Medium', 'High')),
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );` }
+            id SERIAL PRIMARY KEY,
+            board_id INTEGER REFERENCES boards(id) ON DELETE CASCADE,
+            column_id INTEGER REFERENCES columns(id) ON DELETE CASCADE,
+            title VARCHAR(255) NOT NULL,
+            description TEXT,
+            assigned_to INTEGER REFERENCES credentials(id) ON DELETE SET NULL,
+            due_date TIMESTAMP,
+            priority VARCHAR(10) CHECK (priority IN ('Low', 'Medium', 'High')),
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );` }
+
 ];
 
 // Execute table creation using queryDatabase function
