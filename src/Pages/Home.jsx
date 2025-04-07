@@ -11,20 +11,24 @@ const HomePage = () => {
     const [modifiedImage, setModifiedImage] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useContext(Context);
     const navigate = useNavigate();
+    const username = localStorage.getItem('username');
 
     // Upon loading attempt to load user boards
     useEffect(() => {
         // Prevent unnecessary calls
         if(!isLoggedIn) return
 
+        // Returns a list of board names and creation dates
         const fetchBoards = async () =>{
             try{
                 const response = await fetch('http://localhost:3000/fetchBoards', {
                     method: "GET",
                     headers: {
                         "content-type": "application/json"
-                    }
+                    },
+                    body: JSON.stringify({username})
                 })
+                console.log(response.body)
 
                 if(response.status > 400){
                     console.log("Server error failed to fetch boards.")
