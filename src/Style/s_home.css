@@ -11,6 +11,11 @@
     padding-left: 20px;
 }
 
+.board-created-at {
+    font-size: 0.8rem;
+    color: gray;
+    margin-top: 4px;
+}
 
 .home-info {
     display: flex;

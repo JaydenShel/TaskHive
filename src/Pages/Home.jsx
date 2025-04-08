@@ -12,6 +12,8 @@ const HomePage = () => {
     const [isLoggedIn, setIsLoggedIn] = useContext(Context);
     const navigate = useNavigate();
     const username = localStorage.getItem('username');
+    const [boards, setBoards] = useState([]);
+
 
     // Upon loading attempt to load user boards
     useEffect(() => {
@@ -77,10 +79,12 @@ const HomePage = () => {
                 },
                 body: JSON.stringify({username})
             })
-            console.log(response.body)
 
-            if(response.status > 400){
-                console.log("Server error failed to fetch boards.")
+            if (response.status <= 400) {
+                const data = await response.json();
+                setBoards(data.boardInfo);
+            } else {
+                console.log("Server error: failed to fetch boards.");
             }
         }
         catch(err){
@@ -90,87 +94,98 @@ const HomePage = () => {
 
     return (
         <div className={"homepage"}>
+            <div className={"home_header-font"}>My Boards</div>
+            {isLoggedIn && (<div>
+                    <div>
+                        <div className={"board-compartment"}>
+                            {boards.map((board, index) => (
+                                <div className="board-card" key={index}>
+                                    <div className="board-name">{board.name}</div>
+                                    <div
+                                        className="board-created-at">{new Date(board.created_at).toLocaleDateString()}</div>
+                                    <div className="board-image" style={{backgroundColor: "#f0f0f0"}}></div>
+                                </div>
+                            ))}
 
-        {isLoggedIn && (<div>
-                <div className={"home_header-font"}>My Boards</div>
-                <div>
-                    <div className={"board-compartment"}>
-                        <div className="board-card">
-                            <button className={"submit-button"} onClick={handleNewBoard}>Add</button>
-                            <div className="board-name">New Board</div>
-                            <div src={plusIcon} alt={"plusIcon"}></div>
-                            <div className="board-image" style={{backgroundImage: `url(${image})`}}></div>
+                            <div className="board-card">
+                                <button className={"submit-button"} onClick={handleNewBoard}>Add</button>
+                                <div className="board-name">New Board</div>
+                                <div src={plusIcon} alt={"plusIcon"}></div>
+                                <div className="board-image" style={{backgroundImage: `url(${image})`}}></div>
+                            </div>
+
                         </div>
                     </div>
-                </div>
-            </div>
-        )}
-
-            <div className="home-info">
-            <div className={"section"}>
-                <div>
-                    <h1 className={"home_header-font"}>TaskHive</h1>
-                    <h1 className={"home_description-font"}>Automate Tasks, Elevate Team Efficiency</h1>
-                </div>
-                <div>
-                    <img src={homeImage1} alt={"HomeImg1"}></img>
-                </div>
-                <div className={"home-text-box"}>
-                    <p className={"home_description-font"}>Sign up to upload your own images and customize their style
-                        using our integrated machine learning techniques. Save your creations to your profile and access
-                        them anytime.</p>
-                </div>
-                {!isLoggedIn && <button className={"submit-button"} onClick={() => {
-                    navigate('/account')
-                }}>Sign Up</button>}
-            </div>
-
-            <div className={"section2"}>
-                <div>
-                    <img src={""}></img>
-                </div>
-            </div>
-
-            {isLoggedIn && (
-                <div className={"section"}>
-                    <div className="upload-section">
-                        <input
-                            type="file"
-                            accept="image/*"
-                            onChange={handleImageUpload}
-                            className="image-upload"
-                        />
-                        {image && <img src={image} alt="Uploaded preview" className="image-preview"/>}
-                    </div>
-                    <div className="style-selection">
-                        <label htmlFor="style">Choose a style:</label>
-                        <select
-                            id="style"
-                            value={style}
-                            onChange={handleStyleChange}
-                            className="style-dropdown"
-                        >
-                            <option value="">Select a style</option>
-                            <option value="impressionist">Impressionist</option>
-                            <option value="cubism">Cubism</option>
-                            <option value="abstract">Abstract</option>
-                            <option value="realistic">Realistic</option>
-                        </select>
-                    </div>
-                    <button onClick={handleImageModification} className="transform-button">
-                        Transform Image
-                    </button>
-
-                    {modifiedImage && (
-                        <div className="modified-image-section">
-                            <h2>Transformed Image</h2>
-                            <img src={modifiedImage} alt="Modified" className="modified-image"/>
-                        </div>
-                    )}
                 </div>
             )}
 
-        </div>
+            <div className="home-info">
+                <div className={"section"}>
+                    <div>
+                        <h1 className={"home_header-font"}>TaskHive</h1>
+                        <h1 className={"home_description-font"}>Automate Tasks, Elevate Team Efficiency</h1>
+                    </div>
+                    <div>
+                        <img src={homeImage1} alt={"HomeImg1"}></img>
+                    </div>
+                    <div className={"home-text-box"}>
+                        <p className={"home_description-font"}>Sign up to upload your own images and customize their
+                            style
+                            using our integrated machine learning techniques. Save your creations to your profile and
+                            access
+                            them anytime.</p>
+                    </div>
+                    {!isLoggedIn && <button className={"submit-button"} onClick={() => {
+                        navigate('/account')
+                    }}>Sign Up</button>}
+                </div>
+
+                <div className={"section2"}>
+                    <div>
+                        <img src={""}></img>
+                    </div>
+                </div>
+
+                {isLoggedIn && (
+                    <div className={"section"}>
+                        <div className="upload-section">
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImageUpload}
+                                className="image-upload"
+                            />
+                            {image && <img src={image} alt="Uploaded preview" className="image-preview"/>}
+                        </div>
+                        <div className="style-selection">
+                            <label htmlFor="style">Choose a style:</label>
+                            <select
+                                id="style"
+                                value={style}
+                                onChange={handleStyleChange}
+                                className="style-dropdown"
+                            >
+                                <option value="">Select a style</option>
+                                <option value="impressionist">Impressionist</option>
+                                <option value="cubism">Cubism</option>
+                                <option value="abstract">Abstract</option>
+                                <option value="realistic">Realistic</option>
+                            </select>
+                        </div>
+                        <button onClick={handleImageModification} className="transform-button">
+                            Transform Image
+                        </button>
+
+                        {modifiedImage && (
+                            <div className="modified-image-section">
+                                <h2>Transformed Image</h2>
+                                <img src={modifiedImage} alt="Modified" className="modified-image"/>
+                            </div>
+                        )}
+                    </div>
+                )}
+
+            </div>
         </div>
     );
 };
