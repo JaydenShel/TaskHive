@@ -3,9 +3,7 @@ const router = express.Router();
 const queryDatabase = require("../database");
 
 router.post("/", async (req, res) => {
-    console.log(req.body)
     const { boardName, username } = req.body;
-    console.log(username)
 
     try {
         //Get user ID from username

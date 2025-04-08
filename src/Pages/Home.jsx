@@ -17,28 +17,8 @@ const HomePage = () => {
     useEffect(() => {
         // Prevent unnecessary calls
         if(!isLoggedIn) return
-
-        // Returns a list of board names and creation dates
-        const fetchBoards = async () =>{
-            try{
-                const response = await fetch('http://localhost:3000/fetchBoards', {
-                    method: "GET",
-                    headers: {
-                        "content-type": "application/json"
-                    },
-                    body: JSON.stringify({username})
-                })
-                console.log(response.body)
-
-                if(response.status > 400){
-                    console.log("Server error failed to fetch boards.")
-                }
-            }
-            catch(err){
-                console.log("Failed to fetch board data:", err)
-            }
-        }
-    }, [isLoggedIn])
+        fetchBoards()
+    }, [])
 
     // Handle image upload
     const handleImageUpload = (e) => {
@@ -86,6 +66,27 @@ const HomePage = () => {
 
         setModifiedImage(newModifiedImage);
     };
+
+    // Returns a list of board names and creation dates
+    const fetchBoards = async () =>{
+        try{
+            const response = await fetch('http://localhost:3000/fetchBoards', {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify({username})
+            })
+            console.log(response.body)
+
+            if(response.status > 400){
+                console.log("Server error failed to fetch boards.")
+            }
+        }
+        catch(err){
+            console.log("Failed to fetch board data:", err)
+        }
+    }
 
     return (
         <div className={"homepage"}>
