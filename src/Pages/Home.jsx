@@ -2,6 +2,7 @@ import { useState, useContext, useEffect } from 'react';
 import {useNavigate} from "react-router-dom";
 import '../Style/s_home.css';
 import homeImage1 from '../img/TaskHive.jpg'
+import trashIcon from '../img/TrashIcon.png'
 import plusIcon from '../img/PlusIcon.png'
 import {Context} from "../states/LoginContext.jsx";
 
@@ -101,8 +102,10 @@ const HomePage = () => {
                             {boards.map((board, index) => (
                                 <div className="board-card" key={index}>
                                     <div className="board-name">{board.name}</div>
-                                    <div
-                                        className="board-created-at">{new Date(board.created_at).toLocaleDateString()}</div>
+                                    <img src={trashIcon} alt="DeleteBoard" className="trash-icon"/>
+                                    <div className="board-created-at">
+                                        {new Date(board.created_at).toLocaleDateString()}
+                                    </div>
                                     <div className="board-image" style={{backgroundColor: "#f0f0f0"}}></div>
                                 </div>
                             ))}

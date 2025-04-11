@@ -128,6 +128,20 @@ h1 {
     display: inline-block;
 }
 
+.trash-icon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+}
+
+.trash-icon:hover {
+    transform: scale(1.1);
+    opacity: 0.8;
+}
+
 /* Hover effect for transform button */
 .transform-button:hover {
     background-color: #2980b9;
@@ -174,15 +188,18 @@ h1 {
 }
 
 .board-card {
-    width: 200px;
-    height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+    border: 1px solid #ccc;
     border-radius: 12px;
-    overflow: hidden;
-    position: relative;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 60%, white 100%);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s;
+    width: 200px;
+    height: 100px;
+    margin: 10px;
+    position: relative; /* allows absolute child positioning */
 }
+
 
 .board-card:hover {
     transform: scale(1.05);

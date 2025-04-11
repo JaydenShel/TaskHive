@@ -1,5 +1,6 @@
 import { useState } from "react";
 import TextBox from "../Components/InputBox.jsx";
+import { useNavigate } from 'react-router-dom';
 
 function CreateB() {
     //User assigned board values
@@ -8,6 +9,7 @@ function CreateB() {
     const [errStatus, setErrStatus] = useState(false);
     const [displayStatus, setDisplayStatus] = useState(false);
     const username = localStorage.getItem('username');
+    const navigate = useNavigate();
 
     const handleBoardSubmit = async () => {
         try{
@@ -33,6 +35,11 @@ function CreateB() {
             setErrStatus(true)
             setErr(err)
         }
+
+        //Navigate back to home page
+        setTimeout( () => {
+            navigate('/');
+        }, 1000);
     }
 
     return(
