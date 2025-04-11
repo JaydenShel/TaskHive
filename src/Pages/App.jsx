@@ -9,6 +9,7 @@ import Account from '../Pages/Account.jsx';
 import Collections from "./Collections.jsx";
 import Profile from './Profile.jsx'
 import Reset from './reset.jsx'
+import CreateB from "./create-b.jsx";
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useContext(Context);
@@ -95,6 +96,7 @@ function App() {
                 <Route path="/collections" element={<Collections/>}/>
                 <Route path="/profile" element={<Profile/>}/>
                 <Route path="/reset" element={<Reset/>}/>
+                <Route path="/create-b" element={<CreateB/>}/>
             </Routes>
         </BrowserRouter>
     );
