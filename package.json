@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "concurrently \"vite\" \"nodemon ./backend/server.js\" \"node ./backend/s3.js\"",
     "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "start": "node backend/server.js",
+    "preview": "vite preview",
+    "lint": "eslint ."
   },
   "dependencies": {
     "aws-sdk": "^2.1692.0",
