@@ -93,16 +93,34 @@ const HomePage = () => {
         }
     }
 
+    const deleteBoard = async (createdAt) => {
+        console.log(createdAt)
+        try {
+            const response = await fetch('http://localhost:3000/deleteBoard', {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify({createdAt, username})
+            })
+        }
+        catch(err){
+            console.log("Failed to delete board data:", err)
+        }
+
+    }
+
     return (
         <div className={"homepage"}>
             <div className={"home_header-font"}>My Boards</div>
             {isLoggedIn && (<div>
                     <div>
                         <div className={"board-compartment"}>
+
                             {boards.map((board, index) => (
                                 <div className="board-card" key={index}>
                                     <div className="board-name">{board.name}</div>
-                                    <img src={trashIcon} alt="DeleteBoard" className="trash-icon"/>
+                                    <img src={trashIcon} alt="Delete" className="trash-icon" onClick={() => deleteBoard(board.created_at)}/>
                                     <div className="board-created-at">
                                         {new Date(board.created_at).toLocaleDateString()}
                                     </div>
@@ -132,11 +150,7 @@ const HomePage = () => {
                         <img src={homeImage1} alt={"HomeImg1"}></img>
                     </div>
                     <div className={"home-text-box"}>
-                        <p className={"home_description-font"}>Sign up to upload your own images and customize their
-                            style
-                            using our integrated machine learning techniques. Save your creations to your profile and
-                            access
-                            them anytime.</p>
+                        <p className={"home_description-font"}>Sign up to create and organize task boards tailored to your projects. Personalize your workspace, manage timelines, and keep everything synced in one place. Your boards are saved to your profile and accessible anytime.</p>
                     </div>
                     {!isLoggedIn && <button className={"submit-button"} onClick={() => {
                         navigate('/account')
