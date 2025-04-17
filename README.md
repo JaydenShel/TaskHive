@@ -2,7 +2,7 @@
 
 **TaskHive** is a task and project board management web application that allows users to organize their work visually. It supports the creation of boards and tasks with timelines, and includes features for user authentication and profile customization.
 
-![TaskHive UI Screenshot](./assets/taskhive-preview.png) <!-- Replace with actual path or hosted image -->
+![image](https://github.com/user-attachments/assets/3fdb73dc-6c3c-455b-8029-820568a0c4b3)
 
 ---
 
