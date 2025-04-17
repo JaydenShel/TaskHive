@@ -3,7 +3,7 @@ import { useContext, useEffect } from 'react';
 import { Context } from '../states/LoginContext';
 import HomePage from './Home.jsx';
 import Login from './Login.jsx';
-import Banner from '../Components/Banner.jsx';
+import Banner from '../Components/banner.jsx';
 import Settings from './Profile_Options/Settings.jsx';
 import Account from '../Pages/Account.jsx';
 import Collections from "./Collections.jsx";

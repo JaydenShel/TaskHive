@@ -11,15 +11,20 @@ async function registerUser(username, password) {
 
     //Insert into the database
     try {
-        //Make sure username is unique
-
         await queryDatabase(
             "INSERT INTO credentials (username, password, created_at) VALUES ($1, $2, $3)",
             [username, hash, created_at]
         );
     } catch (error) {
-        throw new Error("Failed to register user: " + error.message);
+        // Check for unique constraint violation (PostgreSQL error code 23505)
+        if (error.code === '23505') {
+            throw new Error("Username already exists.");
+
+        } else {
+            throw new Error("Failed to register user: " + error.message);
+        }
     }
+
 }
 
 module.exports = registerUser;

@@ -150,11 +150,7 @@ const HomePage = () => {
                         <img src={homeImage1} alt={"HomeImg1"}></img>
                     </div>
                     <div className={"home-text-box"}>
-                        <p className={"home_description-font"}>Sign up to upload your own images and customize their
-                            style
-                            using our integrated machine learning techniques. Save your creations to your profile and
-                            access
-                            them anytime.</p>
+                        <p className={"home_description-font"}>Sign up to create and organize task boards tailored to your projects. Personalize your workspace, manage timelines, and keep everything synced in one place. Your boards are saved to your profile and accessible anytime.</p>
                     </div>
                     {!isLoggedIn && <button className={"submit-button"} onClick={() => {
                         navigate('/account')
