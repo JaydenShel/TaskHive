@@ -3,6 +3,7 @@ import '../Style/s_login.css';
 import { Context } from '../states/LoginContext';
 import { useState, useContext } from "react";
 import { useNavigate } from 'react-router-dom';
+import {API_BASE_URL} from "../config";
 
 function Reset() {
     const navigate = useNavigate();
@@ -26,7 +27,7 @@ function Reset() {
 
         //POST request to send old password and new password, reset password
         try{
-            const response = await fetch("http://localhost:3000/reset/", {
+            const response = await fetch(`${API_BASE_URL}/reset/`, {
                 method: "POST",
                 headers: {
                     "content-type": "application/json"

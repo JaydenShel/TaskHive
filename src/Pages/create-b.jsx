@@ -1,6 +1,7 @@
 import { useState } from "react";
 import TextBox from "../Components/InputBox.jsx";
 import { useNavigate } from 'react-router-dom';
+import {API_BASE_URL} from "../config";
 
 function CreateB() {
     //User assigned board values
@@ -13,7 +14,7 @@ function CreateB() {
 
     const handleBoardSubmit = async () => {
         try{
-            const response = await fetch('http://localhost:3000/createBoards', {
+            const response = await fetch(`${API_BASE_URL}/createBoards/`, {
                     method: "POST",
                     headers: {
                         "content-type": 'application/json',

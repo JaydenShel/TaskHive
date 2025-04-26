@@ -5,6 +5,7 @@ import homeImage1 from '../img/TaskHive.jpg'
 import trashIcon from '../img/TrashIcon.png'
 import plusIcon from '../img/PlusIcon.png'
 import {Context} from "../states/LoginContext.jsx";
+import {API_BASE_URL} from "../config";
 
 const HomePage = () => {
     const [image, setImage] = useState(null);
@@ -52,7 +53,7 @@ const HomePage = () => {
         }
 
         //Ensure that the user is logged in and cookie is under proper account
-        const response = await fetch("http://localhost:3000/auth/", {
+        const response = await fetch(`${API_BASE_URL}/auth/`, {
             method: "GET",
             credentials: "include",
             headers: {
@@ -73,7 +74,7 @@ const HomePage = () => {
     // Returns a list of board names and creation dates
     const fetchBoards = async () =>{
         try{
-            const response = await fetch('http://localhost:3000/fetchBoards', {
+            const response = await fetch(`${API_BASE_URL}/fetchBoards/`, {
                 method: "POST",
                 headers: {
                     "content-type": "application/json"
@@ -96,7 +97,7 @@ const HomePage = () => {
     const deleteBoard = async (createdAt) => {
         console.log(createdAt)
         try {
-            const response = await fetch('http://localhost:3000/deleteBoard', {
+            const response = await fetch(`${API_BASE_URL}/deleteBoard/`, {
                 method: "POST",
                 headers: {
                     "content-type": "application/json"

@@ -1,5 +1,6 @@
 import {useNavigate} from "react-router-dom";
 import {useState, useEffect} from "react";
+import {API_BASE_URL} from "../../config";
 
 function Account_Info() {
     const navigate = useNavigate();
@@ -15,7 +16,7 @@ function Account_Info() {
     const handlePasswordReset = async () => {
         // Authenticate, then direct to reset password page, child of login page
         try{
-            const response = await fetch('http://localhost:3000/auth/', {
+            const response = await fetch(`${API_BASE_URL}/auth/`, {
                 method: "GET",
                 headers: {
                     'content-type': 'application/json',
@@ -45,7 +46,7 @@ function Account_Info() {
     }
 
     const loadImage = async () =>{
-         const response = await fetch('http://localhost:3000/load-image/', {
+         const response = await fetch(`${API_BASE_URL}/load-image/`, {
              headers: {
                  "content-type": "application/json",
              },
@@ -61,7 +62,7 @@ function Account_Info() {
     }
 
     const uploadImage = async () => {
-        const response = await fetch('http://localhost:3000/upload-image/', {
+        const response = await fetch(`${API_BASE_URL}/upload-image/`, {
             headers: {
                 "content-type": "application/json",
             },
