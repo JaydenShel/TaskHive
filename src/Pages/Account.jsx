@@ -2,6 +2,7 @@ import '../Style/s_login.css';
 import TextBox from "../Components/InputBox.jsx";
 import {useState} from "react";
 import { useNavigate } from 'react-router-dom';
+import {API_BASE_URL} from "../config";
 
 function Account() {
     //Use states for each user input
@@ -26,7 +27,7 @@ function Account() {
             return
         }
 
-        const response = await fetch('http://localhost:3000/account/',
+        const response = await fetch(`${API_BASE_URL}/account/`,
             {
                 method:"POST",
                 headers: {

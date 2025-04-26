@@ -3,6 +3,7 @@ import '../Style/s_login.css';
 import { Context } from '../states/LoginContext';
 import { useState, useContext } from "react";
 import { useNavigate } from 'react-router-dom';
+import {API_BASE_URL} from "../config";
 
 function Login() {
     const navigate = useNavigate();
@@ -17,7 +18,7 @@ function Login() {
     //Upon user pressing the submit button
     const handleSubmit = async () => {
         //POST request to send username and password to verify credentials
-        const response = await fetch('http://localhost:3000/login/', {
+        const response = await fetch(`${API_BASE_URL}/login/`, {
             method: "POST",
             headers: {
                 "content-type": "application/json",

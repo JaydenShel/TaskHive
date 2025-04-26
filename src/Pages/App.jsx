@@ -10,6 +10,7 @@ import Collections from "./Collections.jsx";
 import Profile from './Profile.jsx'
 import Reset from './reset.jsx'
 import CreateB from "./create-b.jsx";
+import {API_BASE_URL} from "../config";
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useContext(Context);
@@ -28,7 +29,7 @@ function App() {
     };
 
     const handleLogout = async () => {
-        await fetch("http://localhost:3000/logout/", {
+        await fetch(`${API_BASE_URL}/logout/`, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -55,7 +56,7 @@ function App() {
 
     const verifyToken = async () => {
         try {
-            const response = await fetch("http://localhost:3000/auth/", {
+            const response = await fetch(`${API_BASE_URL}/auth/`, {
                 method: "GET",
                 credentials: "include",
                 headers: {
