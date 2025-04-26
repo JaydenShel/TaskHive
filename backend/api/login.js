@@ -41,7 +41,7 @@ router.post('/', async (req, res) => {
         res.cookie("token", token, {
             httpOnly: true, //XSS protection
             secure: process.env.NODE_ENV === 'production', //Man-in-the-middle protection
-            sameSite: 'strict', //CSRF protection
+            sameSite: 'None', //CSRF protection
             path: '/', //Cookie available site-wide
             expires: new Date(Date.now() + 3600000), //1hr Expiration (User is logged out)
         });
