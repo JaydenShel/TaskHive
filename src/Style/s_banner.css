@@ -1,32 +1,32 @@
 .banner {
     width: 100%;
-    height: 125px;
-    position: relative;
-    z-index: 10;
+    min-height: 100px;
     background: linear-gradient(135deg, #aa93fb, #a967f1);
     color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
     padding: 15px 30px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     border-bottom: 3px solid rgba(255, 255, 255, 0.1);
-    max-width: 100%;
-    overflow-x: hidden;
     box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
+    z-index: 10;
 }
 
 .banner-logo {
-    font-size: 12px;
+    font-size: 20px;
     font-weight: bold;
     font-family: 'Georgia', serif;
     color: white;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    transition: none; /* Remove hover scaling */
 }
 
 .banner-actions {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 15px;
 }
@@ -53,30 +53,26 @@
 .logout-button {
     background: #e74c3c;
     color: white;
-    border-color: transparent;
 }
 
 .logout-button:hover {
     background: #c0392b;
-    transform: scale(1.05); /* Scale effect on hover */
+    transform: scale(1.05);
     border-color: #fff;
 }
 
-/* Profile section without scaling effect on text */
 .profile {
-    margin-left: 20px;
     color: white;
     font-weight: bold;
     font-size: 16px;
     cursor: pointer;
-    transition: none; /* Remove hover scaling */
+    transition: none;
 }
 
 .profile:hover {
-    color: #ecf0f1; /* Change color without scaling */
+    color: #ecf0f1;
 }
 
-/* Profile image with scale effect on hover */
 .profile-logo {
     width: 50px;
     height: 50px;
@@ -88,32 +84,7 @@
 }
 
 .profile-logo:hover {
-    transform: rotate(5deg) scale(1.1); /* Apply scaling on hover for profile */
-}
-
-/* Profile large image with hover scale effect */
-.profile-logo2 {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 3px solid #ddd;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s ease-in-out;
-}
-
-.profile-logo2:hover {
-    transform: rotate(5deg) scale(1.1); /* Apply scaling on hover */
-}
-
-.username {
-    font-size: 1rem;
-    font-weight: bold;
-    color: black;
-    text-align: center;
+    transform: rotate(5deg) scale(1.1);
 }
 
 .profile-container {
@@ -122,58 +93,26 @@
     gap: 10px;
 }
 
-/* Profile image container with hover scale effect */
-.profile-logo.account-info {
-    width: 200px;
-    height: 100px;
-}
-
-/* Remove scaling effects from non-interactive text */
-.home_description-font,
-.home_header-font {
-    transition: none;
-}
-
-/* Remove scaling from static elements */
-.home_description-font {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.2rem;
-    font-weight: 400;
-    color: #333;
-    line-height: 1.6;
-    letter-spacing: 0.5px;
-    text-align: center;
-    max-width: 80%;
-    margin: 0 auto;
-}
-
-/* Header text without scaling on hover */
-.home_header-font {
-    font-family: 'Poppins', sans-serif;
-    font-size: 2.5rem;
-    font-weight: 600;
-    color: #222;
-    text-align: center;
-    letter-spacing: 1px;
-    margin-bottom: 1rem;
-}
-
+/* Responsive Fixes */
 @media (max-width: 768px) {
     .banner {
         flex-direction: column;
-        text-align: center;
-        padding: 10px 20px;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 15px;
     }
 
     .banner-actions {
         flex-direction: column;
+        align-items: flex-start;
         gap: 10px;
-        margin-top: 20px;
+        width: 100%;
     }
 
     .profile-container {
-        flex-direction: column;
-        gap: 5px;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
     }
 
     .profile-logo {
@@ -181,11 +120,7 @@
         height: 40px;
     }
 
-    .image-logo {
-        max-height: 100px;
-    }
-
     .banner-logo {
-        font-size: 20px;
+        font-size: 18px;
     }
 }
