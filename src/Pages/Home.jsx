@@ -99,7 +99,7 @@ const HomePage = () => {
                                 src={trashIcon}
                                 alt="Delete"
                                 className="trash-icon"
-                                onClick={() => deleteBoard(board.created_at)}
+                                onClick={() => deleteBoard(board.createdAt)}
                             />
                             <div className="board-created-at">
                                 {new Date(board.created_at).toLocaleDateString()}
