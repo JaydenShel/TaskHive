@@ -128,7 +128,13 @@ const HomePage = () => {
                                 src={trashIcon}
                                 alt="Delete"
                                 className="trash-icon"
-                                onClick={() => deleteBoard(board.id)} // ← now using ID
+                                onClick={() => {
+                                    const confirmed = window.confirm(`Are you sure you want to delete "${board.name}"?`);
+                                    if (confirmed) {
+                                        deleteBoard(board.id);
+                                    }
+                                }}
+
                             />
                             <div className="board-created-at">
                                 {new Date(board.created_at).toLocaleDateString()}
