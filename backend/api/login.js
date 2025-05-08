@@ -39,12 +39,13 @@ router.post('/', async (req, res) => {
 
         //Create a secure cookie to store JWT token
         res.cookie("token", token, {
-            httpOnly: true, //XSS protection
-            secure: process.env.NODE_ENV === 'production', //Man-in-the-middle protection
-            sameSite: 'strict', //CSRF protection
-            path: '/', //Cookie available site-wide
-            expires: new Date(Date.now() + 3600000), //1hr Expiration (User is logged out)
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production", // will be false in dev
+            sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+            path: "/",
+            expires: new Date(Date.now() + 3600000),
         });
+
 
         return res.status(200).json({ message: 'Login successful!', username});
     } catch(error) {

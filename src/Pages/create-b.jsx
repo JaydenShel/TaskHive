@@ -2,6 +2,7 @@ import { useState } from "react";
 import TextBox from "../Components/InputBox.jsx";
 import { useNavigate } from 'react-router-dom';
 import {API_BASE_URL} from "../config";
+import "../Style/s_create-b.css"
 
 function CreateB() {
     //User assigned board values
@@ -43,24 +44,25 @@ function CreateB() {
         }, 1000);
     }
 
-    return(
-        <div className={"homepage"}>
-            <div className={"selection-grid"}>
-                <TextBox
-                    label="Enter Board Name"
-                    type="text"
-                    required
-                    value={boardName}
-                    onChange={setBoardName}
-                />
-                <button className={"submit-button"} onClick={handleBoardSubmit}>Create Board</button>
-                {errStatus && <h1 className={"warning"}>{err}</h1>}
-            </div>
-            <div className={"display-grid"}>
-
+    return (
+        <div className="homepage">
+            <div className="fullscreen-center">
+                <div className="form-card">
+                    <TextBox
+                        label="Enter Board Name"
+                        type="text"
+                        required
+                        value={boardName}
+                        onChange={setBoardName}
+                    />
+                    <button className="transform-button" onClick={handleBoardSubmit}>
+                        Create Board
+                    </button>
+                    {errStatus && <h1 className="warning">{err}</h1>}
+                </div>
             </div>
         </div>
-    )
+    );
 
 }
 

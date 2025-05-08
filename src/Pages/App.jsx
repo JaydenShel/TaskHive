@@ -10,6 +10,7 @@ import Collections from "./Collections.jsx";
 import Profile from './Profile.jsx'
 import Reset from './reset.jsx'
 import CreateB from "./create-b.jsx";
+import Board from "./board";
 import {API_BASE_URL} from "../config";
 
 function App() {
@@ -98,6 +99,8 @@ function App() {
                 <Route path="/profile" element={<Profile/>}/>
                 <Route path="/reset" element={<Reset/>}/>
                 <Route path="/create-b" element={<CreateB/>}/>
+                <Route path="/board/:boardId" element={<Board/>} />
+
             </Routes>
         </BrowserRouter>
     );

@@ -15,11 +15,32 @@ const HomePage = () => {
     const navigate = useNavigate();
     const username = localStorage.getItem('username');
     const [boards, setBoards] = useState([]);
+    const [boardDeleted, setBoardDeleted] = useState();
 
     useEffect(() => {
-        if (!isLoggedIn) return;
-        fetchBoards();
+        const verifyAndFetchBoards = async () => {
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/`, {
+                    method: "GET",
+                    credentials: "include",
+                    headers: { "Content-Type": "application/json" }
+                });
+
+                if (response.status <= 400) {
+                    setIsLoggedIn(true);
+                    fetchBoards();
+                } else {
+                    setIsLoggedIn(false);
+                }
+            } catch (error) {
+                console.error("Auth check failed:", error);
+                setIsLoggedIn(false);
+            }
+        };
+
+        verifyAndFetchBoards();
     }, []);
+
 
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
@@ -74,17 +95,25 @@ const HomePage = () => {
         }
     };
 
-    const deleteBoard = async (createdAt) => {
+    const deleteBoard = async (id) => {
         try {
-            await fetch(`${API_BASE_URL}/deleteBoard/`, {
+            const response = await fetch(`${API_BASE_URL}/deleteBoard/`, {
                 method: "POST",
                 headers: { "content-type": "application/json" },
-                body: JSON.stringify({ createdAt, username })
+                body: JSON.stringify({ id, username })
             });
+
+            if (response.status <= 400) {
+                // Re-fetch boards to update UI after deletion
+                fetchBoards();
+            } else {
+                console.log("Server error deleting board.");
+            }
         } catch (err) {
             console.log("Failed to delete board data:", err);
         }
     };
+
 
     return (
         <div className="homepage">
@@ -92,14 +121,22 @@ const HomePage = () => {
 
             {isLoggedIn && (
                 <div className="board-compartment">
-                    {boards.map((board, index) => (
-                        <div className="board-card" key={index}>
+                    {boards.map((board) => (
+                        <div
+                            className="board-card clickable"
+                            key={board.id}
+                            onClick={() => navigate(`/board/${board.id}`)}
+                        >
                             <div className="board-name">{board.name}</div>
                             <img
                                 src={trashIcon}
                                 alt="Delete"
                                 className="trash-icon"
-                                onClick={() => deleteBoard(board.created_at)}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    const confirmed = window.confirm(`Are you sure you want to delete "${board.name}"?`);
+                                    if (confirmed) deleteBoard(board.id);
+                                }}
                             />
                             <div className="board-created-at">
                                 {new Date(board.created_at).toLocaleDateString()}
@@ -107,6 +144,7 @@ const HomePage = () => {
                             <div className="board-image" style={{ backgroundColor: "#f0f0f0" }}></div>
                         </div>
                     ))}
+
 
                     <div className="board-card add-card">
                         <button className="submit-button" onClick={handleNewBoard}>Add</button>

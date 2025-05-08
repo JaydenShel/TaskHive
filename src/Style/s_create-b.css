@@ -13,3 +13,21 @@
     justify-content: center;
     margin-left: 50px;
 }
+
+.fullscreen-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    width: 100%;
+}
+
+.form-card {
+    width: 100%;
+    max-width: 400px;
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
