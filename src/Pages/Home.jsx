@@ -122,19 +122,21 @@ const HomePage = () => {
             {isLoggedIn && (
                 <div className="board-compartment">
                     {boards.map((board) => (
-                        <div className="board-card" key={board.id}>
+                        <div
+                            className="board-card clickable"
+                            key={board.id}
+                            onClick={() => navigate(`/board/${board.id}`)}
+                        >
                             <div className="board-name">{board.name}</div>
                             <img
                                 src={trashIcon}
                                 alt="Delete"
                                 className="trash-icon"
-                                onClick={() => {
+                                onClick={(e) => {
+                                    e.stopPropagation();
                                     const confirmed = window.confirm(`Are you sure you want to delete "${board.name}"?`);
-                                    if (confirmed) {
-                                        deleteBoard(board.id);
-                                    }
+                                    if (confirmed) deleteBoard(board.id);
                                 }}
-
                             />
                             <div className="board-created-at">
                                 {new Date(board.created_at).toLocaleDateString()}
