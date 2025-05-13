@@ -47,8 +47,8 @@ app.use('/reset', resetPassword);
 app.use('/fetchBoards', fetchBoards);
 app.use('/createBoards', createBoard);
 app.use('/deleteBoard', deleteBoard);
-app.use('getColumnsAndTasks', getColumnsAndTasks)
-app.use('addColumn', addColumn)
+app.use('/getColumnsAndTasks', getColumnsAndTasks)
+app.use('/addColumn', addColumn)
 
 const distPath = path.join(__dirname, '..', 'dist');
 app.use(express.static(distPath));
