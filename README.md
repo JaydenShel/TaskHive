@@ -116,8 +116,8 @@ Then open: [http://localhost:5173](http://localhost:5173)
    ```
 3. Set your environment variables on Heroku:
    ```bash
-   heroku config:set SESSION_SECRET=your_secret
-   heroku config:set CLIENT_ORIGIN=https://yourdomain.com
+   heroku config:set DATABASE_URL=your_secret
+   heroku config:set VITE_API_URL=https://yourdomain.com
    ```
 4. Push to Heroku:
    ```bash
@@ -158,10 +158,10 @@ Then open: [http://localhost:5173](http://localhost:5173)
 
 ## 🧑 Author
 
-Created by [Your Name](https://github.com/yourusername) – feel free to reach out!
+Created by Jayden Shelderfer (https://github.com/JaydenShel) – feel free to reach out!
 
 ---
 
 ## 🪲 Issues / Contributions
 
-Found a bug or want to contribute? [Open an issue](https://github.com/yourusername/taskhive/issues) or submit a PR!
+Found a bug or want to contribute? [Open an issue](https://github.com/JaydenShel/taskhive/issues) or submit a PR!
