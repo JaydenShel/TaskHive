@@ -35,6 +35,7 @@ const fetchBoards = require('./api/fetchBoards');
 const createBoard = require('./api/createBoard');
 const deleteBoard = require('./api/deleteBoard');
 const getColumnsAndTasks = require('./api/getColumnsAndTasks')
+const addColumn = require('./api/addColumn')
 
 app.use('/login', loginRoute);
 app.use('/account', accountRoute);
@@ -47,8 +48,8 @@ app.use('/fetchBoards', fetchBoards);
 app.use('/createBoards', createBoard);
 app.use('/deleteBoard', deleteBoard);
 app.use('getColumnsAndTasks', getColumnsAndTasks)
+app.use('addColumn', addColumn)
 
-// --- Serve Vite React frontend ---
 const distPath = path.join(__dirname, '..', 'dist');
 app.use(express.static(distPath));
 
