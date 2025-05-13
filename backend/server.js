@@ -34,6 +34,7 @@ const resetPassword = require('./api/reset');
 const fetchBoards = require('./api/fetchBoards');
 const createBoard = require('./api/createBoard');
 const deleteBoard = require('./api/deleteBoard');
+const getColumnsAndTasks = require('./api/getColumnsAndTasks')
 
 app.use('/login', loginRoute);
 app.use('/account', accountRoute);
@@ -45,6 +46,7 @@ app.use('/reset', resetPassword);
 app.use('/fetchBoards', fetchBoards);
 app.use('/createBoards', createBoard);
 app.use('/deleteBoard', deleteBoard);
+app.use('getColumnsAndTasks', getColumnsAndTasks)
 
 // --- Serve Vite React frontend ---
 const distPath = path.join(__dirname, '..', 'dist');
