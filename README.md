@@ -2,7 +2,25 @@
 
 **TaskHive** is a task and project board management web application that allows users to visually organize work with boards, columns, and tasks. It includes secure user authentication, PostgreSQL storage, and an extensible frontend ready for future ML features.
 
+## 🌐 Live Demo
+
+👉 [Try TaskHive Live](https://taskhive-d7fe2ccaf71b.herokuapp.com)
+
+
+
 ![image](https://github.com/user-attachments/assets/3fdb73dc-6c3c-455b-8029-820568a0c4b3)
+
+---
+
+### 🧪 Demo Credentials
+
+Use the following to log in and explore:
+
+```
+Username: demo@taskhive.com  
+Password: password123
+```
+> ⚠️ **Note**: User authentication is currently **disabled** on the live demo due to limitations of free-tier Heroku deployment and cross-origin cookie/session handling. Full authentication functionality works in local development or with a custom domain + HTTPS setup.
 
 ---
 
