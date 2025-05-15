@@ -81,6 +81,26 @@ const BoardPage = () => {
         }
     };
 
+    const toggleTaskDone = async (taskId, columnId) => {
+        const res = await fetch(`${API_BASE_URL}/toggleTaskDone`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ taskId }),
+        });
+
+        if (res.ok) {
+            setColumns(columns.map(col => {
+                if (col.id !== columnId) return col;
+                return {
+                    ...col,
+                    tasks: col.tasks.map(task =>
+                        task.id === taskId ? { ...task, done: !task.done } : task
+                    )
+                };
+            }));
+        }
+    };
+
     if (loading) return <div className="board-page"><p>Loading...</p></div>;
     if (error) return <div className="board-page"><p>{error}</p></div>;
 
@@ -93,8 +113,15 @@ const BoardPage = () => {
                     <div className="column" key={column.id}>
                         <h2>{column.name}</h2>
                         {column.tasks.map(task => (
-                            <div className="task" key={task.id}>
-                                <strong>{task.title}</strong>
+                            <div className={`task ${task.done ? 'done' : ''}`} key={task.id}>
+                                <label className="task-checkbox">
+                                    <input
+                                        type="checkbox"
+                                        checked={task.done}
+                                        onChange={() => toggleTaskDone(task.id, column.id)}
+                                    />
+                                    <span>{task.title}</span>
+                                </label>
                             </div>
                         ))}
                         <button className="add-task-btn" onClick={() => handleAddTask(column.id)}>+ Add Task</button>
