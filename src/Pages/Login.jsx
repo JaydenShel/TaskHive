@@ -46,7 +46,7 @@ function Login() {
 
             //Navigate back to home page
             setTimeout( () => {
-                navigate('/');
+                navigate('/home');
             }, 1000);
         }
 

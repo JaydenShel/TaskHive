@@ -73,6 +73,8 @@ const schemaQueries = [
             assigned_to INTEGER REFERENCES credentials(id) ON DELETE SET NULL,
             due_date TIMESTAMP,
             priority VARCHAR(10) CHECK (priority IN ('Low', 'Medium', 'High')),
+            done BOOLEAN DEFAULT false,
+            position INTEGER NOT NULL DEFAULT 0 CHECK (position >= 0),
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );` }
 

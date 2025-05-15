@@ -37,6 +37,7 @@ const deleteBoard = require('./api/deleteBoard');
 const getColumnsAndTasks = require('./api/getColumnsAndTasks')
 const addColumn = require('./api/addColumn')
 const addTask = require('./api/addTask')
+const toggleTaskDone = require('./api/toggleTaskDone')
 
 app.use('/login', loginRoute);
 app.use('/account', accountRoute);
@@ -51,6 +52,7 @@ app.use('/deleteBoard', deleteBoard);
 app.use('/getColumnsAndTasks', getColumnsAndTasks)
 app.use('/addColumn', addColumn)
 app.use('/addTask', addTask)
+app.use('/toggleTaskDone', toggleTaskDone)
 
 const distPath = path.join(__dirname, '..', 'dist');
 app.use(express.static(distPath));
