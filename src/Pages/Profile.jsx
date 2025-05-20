@@ -1,42 +1,38 @@
-import '../Style/s_profile.css'
-import {useState} from "react";
-import Settings from './Profile_Options/Settings.jsx'
-import Account_Info from './Profile_Options/Account_Info.jsx'
+import '../Style/s_profile.css';
+import { useState } from 'react';
+import Settings from './Profile_Options/Settings.jsx';
+import Account_Info from './Profile_Options/Account_Info.jsx';
 
-function Profile(){
-    const [selectedContent, setSelectedContent] = useState("");
+function Profile() {
+    const [selectedContent, setSelectedContent] = useState("account_info");
 
-    //Map with various different options to render
     const contentMap = {
-        settings: <Settings/>,
-        account_info: <Account_Info/>
-    }
+        settings: <Settings />,
+        account_info: <Account_Info />
+    };
 
-    const renderPreferences = () => {
-        setSelectedContent("settings")
-        console.log("Settings")
-    }
-
-    const renderAccountInfo = () => {
-        setSelectedContent("account_info")
-        console.log("AccountInfo")
-    }
-
-    return(
-        <div className={"profile"}>
-            <div className={"profile-page"}>
-                <div className={'selection-box'}>
-                    <div className={"option"} onClick={renderPreferences}>
-                        <h1 className={"username"}>Settings</h1>
-                    </div>
-                    <div className={"option"} onClick={renderAccountInfo}>
-                        <h1 className={"username"}>Account Info</h1>
-                    </div>
+    return (
+        <div className="settings-layout">
+            <aside className="settings-sidebar">
+                <div
+                    className={`sidebar-item ${selectedContent === "settings" ? "active" : ""}`}
+                    onClick={() => setSelectedContent("settings")}
+                >
+                    Settings
                 </div>
+                <div
+                    className={`sidebar-item ${selectedContent === "account_info" ? "active" : ""}`}
+                    onClick={() => setSelectedContent("account_info")}
+                >
+                    Account Info
+                </div>
+            </aside>
+
+            <main className="settings-content">
                 {contentMap[selectedContent]}
-            </div>
+            </main>
         </div>
-    )
+    );
 }
 
-export default Profile
+export default Profile;

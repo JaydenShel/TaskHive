@@ -65,10 +65,17 @@ const BoardPage = () => {
         const title = prompt("Task title:");
         if (!title) return;
 
+        let priority = prompt("Priority (Low, Medium, High):", "Medium");
+        priority = priority?.charAt(0).toUpperCase() + priority?.slice(1).toLowerCase();
+        if (!['Low', 'Medium', 'High'].includes(priority)) {
+            alert('Invalid priority. Defaulting to Medium.');
+            priority = 'Medium';
+        }
+
         const res = await fetch(`${API_BASE_URL}/addTask`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ boardId, columnId, title }),
+            body: JSON.stringify({ boardId, columnId, title, priority }),
         });
 
         if (res.ok) {
@@ -122,6 +129,9 @@ const BoardPage = () => {
                                     />
                                     <span>{task.title}</span>
                                 </label>
+                                <span className={`priority-badge ${task.priority?.toLowerCase()}`}>
+                                    {task.priority}
+                                </span>
                             </div>
                         ))}
                         <button className="add-task-btn" onClick={() => handleAddTask(column.id)}>+ Add Task</button>
