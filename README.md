@@ -20,7 +20,7 @@ Use the following to log in and explore:
 Username: demo@taskhive 
 Password: password123
 ```
-> ⚠️ **Note**: User authentication is currently **disabled** on the live demo due to limitations of free-tier Heroku deployment and cross-origin cookie/session handling. Full authentication functionality works in local development or with a custom domain + HTTPS setup.
+> ⚠️ **Note**: User authentication is currently **disabled** on the live demo due to limitations of Heroku deployment and cross-origin cookie/session handling. Full authentication functionality works in local development or with a custom domain + HTTPS setup.
 
 ---
 
