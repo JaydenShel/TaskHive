@@ -44,26 +44,30 @@ function Account_Info() {
         const input = document.createElement("input");
         input.type = "file";
         input.accept = "image/*";
+
         input.onchange = async (e) => {
             const file = e.target.files[0];
             const formData = new FormData();
             formData.append("image", file);
 
-            const res = await fetch(`${API_BASE_URL}/upload-image/`, {
+            const res = await fetch(`${API_BASE_URL}/upload-image`, {
                 method: "POST",
                 credentials: "include",
                 body: formData,
             });
 
             if (res.ok) {
-                loadImage();
-                setErr("");
+                const { imageUrl } = await res.json();
+                setProfileUrl(imageUrl);
+                setHasImage(true);
             } else {
                 setErr("Failed to upload image.");
             }
         };
+
         input.click();
     };
+
 
     return (
         <div className="account-card">
