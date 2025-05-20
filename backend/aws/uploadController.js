@@ -2,7 +2,9 @@ const express = require('express');
 const AWS = require('aws-sdk');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
+const jwt = require("jsonwebtoken");
 const router = express.Router();
+const queryDatabase = require('../database')
 
 // ✅ Load bucket and region from .env
 const BUCKET_NAME = process.env.S3_BUCKET || 'profile-images';
@@ -34,12 +36,27 @@ const upload = multer({
     })
 });
 
-// ✅ POST /upload-image
-router.post('/', upload.single('image'), (req, res) => {
-    if (!req.file || !req.file.location) {
-        return res.status(400).json({ message: 'Upload failed.' });
+router.post('/', upload.single('image'), async (req, res) => {
+    const token = req.cookies.token
+
+    try {
+        //Retrieve decrypted token
+        const decoded_token = jwt.verify(token, process.env.SECRET_KEY)
+
+        await queryDatabase(
+            'UPDATE credentials SET profile_image_url = $1 WHERE id = $2',
+            [req.file.location, decoded_token.id]
+        );
+    } catch (err) {
+        res.status(400).json({message: "Could not decode cookie"})
     }
-    res.status(200).json({ imageUrl: req.file.location });
+
+
+    if (!req.file || !req.file.location) {
+        return res.status(400).json({message: 'Upload failed.'});
+    }
+
+    res.status(200).json({imageUrl: req.file.location});
 });
 
 module.exports = router;

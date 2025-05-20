@@ -53,6 +53,7 @@ function Account_Info() {
             const res = await fetch(`${API_BASE_URL}/upload-image`, {
                 method: "POST",
                 credentials: "include",
+                include: "credentials",
                 body: formData,
             });
 
