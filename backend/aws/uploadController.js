@@ -10,7 +10,7 @@ const queryDatabase = require('../database')
 const BUCKET_NAME = process.env.S3_BUCKET || 'profile-images';
 const REGION = process.env.AWS_REGION || 'us-east-1';
 
-// ✅ AWS v2 S3 Client Config
+// AWS config
 AWS.config.update({
     accessKeyId: process.env.AWS_ACCESS_KEY || 'S3RVER',
     secretAccessKey: process.env.AWS_SECRET_KEY || 'S3RVER',

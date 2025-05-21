@@ -1,7 +1,18 @@
 const express = require('express');
+const AWS = require('aws-sdk');
 const router = express.Router();
 const queryDatabase = require('../database');
 const jwt = require("jsonwebtoken");
+
+// S3 Configuration
+const BUCKET_NAME = process.env.S3_BUCKET;
+const REGION = process.env.AWS_REGION;
+
+const s3 = new AWS.S3({
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_KEY,
+    region: REGION
+});
 
 router.get('/', async (req, res) => {
     const token = req.cookies.token;
@@ -14,15 +25,34 @@ router.get('/', async (req, res) => {
             [decoded_token.user_id]
         );
 
-        const imageUrl = rows[0]?.profile_image_url;
-
-        if (!imageUrl) {
+        const fullUrl = rows[0]?.profile_image_url;
+        if (!fullUrl) {
             return res.status(404).json({ message: "No profile image found." });
         }
 
-        res.status(200).json({ imageUrl });
+
+        // Extract the S3 object key from the full URL (after the .com/)
+        const s3Key = fullUrl.split('.com/')[1];
+        console.log("Full URL:", fullUrl);
+        console.log("Parsed S3 key:", s3Key);
+
+        if (!s3Key) {
+            return res.status(500).json({ message: "Failed to parse S3 key." });
+        }
+
+        // Generate a pre-signed URL
+        const signedUrl = s3.getSignedUrl('getObject', {
+            Bucket: BUCKET_NAME,
+            Key: s3Key,
+            Expires: 60 * 5,
+        });
+        console.log(signedUrl)
+
+        res.status(200).json({ imageUrl: signedUrl });
+
     } catch (err) {
-        return res.status(400).json({ message: err.message });
+        console.error("Failed to get signed image URL:", err);
+        res.status(400).json({ message: err.message });
     }
 });
 
