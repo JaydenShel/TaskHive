@@ -9,12 +9,12 @@ router.get('/', async (req, res) => {
     try {
         const decoded_token = jwt.verify(token, process.env.SECRET_KEY);
 
-        const result = await queryDatabase(
+        const rows = await queryDatabase(
             'SELECT profile_image_url FROM credentials WHERE id = $1',
             [decoded_token.user_id]
         );
 
-        const imageUrl = result.rows[0]?.profile_image_url;
+        const imageUrl = rows[0]?.profile_image_url;
 
         if (!imageUrl) {
             return res.status(404).json({ message: "No profile image found." });
