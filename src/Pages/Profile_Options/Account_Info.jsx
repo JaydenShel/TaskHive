@@ -13,7 +13,7 @@ function Account_Info() {
     }, []);
 
     const handlePasswordReset = async () => {
-        const res = await fetch(`${API_BASE_URL}/auth/`, {
+        const res = await fetch(`${API_BASE_URL}/auth`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
             credentials: "include",
@@ -27,15 +27,18 @@ function Account_Info() {
     };
 
     const loadImage = async () => {
-        const res = await fetch(`${API_BASE_URL}/load-image/`, {
+        const res = await fetch(`${API_BASE_URL}/load-image`, {
+            method: "GET",
             credentials: "include"
         });
 
         if (res.ok) {
-            const blob = await res.blob();
-            setProfileUrl(URL.createObjectURL(blob));
+            const data = await res.json();
+            console.log("Image data:", data);
+            setProfileUrl(data.imageUrl);
             setHasImage(true);
         } else {
+            console.log("Image data:");
             setHasImage(false);
         }
     };
@@ -73,7 +76,7 @@ function Account_Info() {
     return (
         <div className="account-card">
             <div className="profile-image-container">
-                {hasImage ? (
+                {hasImage && profileUrl ? (
                     <img src={profileUrl} alt="Profile" className="profile-circle" />
                 ) : (
                     <div className="profile-placeholder">?</div>
@@ -96,6 +99,7 @@ function Account_Info() {
             {err && <div className="error-box">{err}</div>}
         </div>
     );
+
 }
 
 export default Account_Info;

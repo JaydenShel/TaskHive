@@ -38,6 +38,7 @@ const addColumn = require('./api/addColumn')
 const addTask = require('./api/addTask')
 const toggleTaskDone = require('./api/toggleTaskDone')
 const uploadImageRoute = require('./aws/uploadController');
+const loadImage = require('./api/load-image')
 
 app.use('/login', loginRoute);
 app.use('/account', accountRoute);
@@ -53,6 +54,7 @@ app.use('/addColumn', addColumn)
 app.use('/addTask', addTask)
 app.use('/toggleTaskDone', toggleTaskDone)
 app.use('/upload-image', uploadImageRoute);
+app.use('/load-image', loadImage)
 
 const distPath = path.join(__dirname, '..', 'dist');
 app.use(express.static(distPath));

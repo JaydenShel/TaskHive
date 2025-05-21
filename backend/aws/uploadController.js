@@ -43,12 +43,13 @@ router.post('/', upload.single('image'), async (req, res) => {
         //Retrieve decrypted token
         const decoded_token = jwt.verify(token, process.env.SECRET_KEY)
 
-        await queryDatabase(
+        const result = await queryDatabase(
             'UPDATE credentials SET profile_image_url = $1 WHERE id = $2',
-            [req.file.location, decoded_token.id]
+            [req.file.location, decoded_token.user_id]
         );
+        console.log("Rows affected:", result.rowCount);
     } catch (err) {
-        res.status(400).json({message: "Could not decode cookie"})
+        res.status(400).json({message: err})
     }
 
 
