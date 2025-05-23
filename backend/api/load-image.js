@@ -33,8 +33,6 @@ router.get('/', async (req, res) => {
 
         // Extract the S3 object key from the full URL (after the .com/)
         const s3Key = fullUrl.split('.com/')[1];
-        console.log("Full URL:", fullUrl);
-        console.log("Parsed S3 key:", s3Key);
 
         if (!s3Key) {
             return res.status(500).json({ message: "Failed to parse S3 key." });
@@ -46,7 +44,6 @@ router.get('/', async (req, res) => {
             Key: s3Key,
             Expires: 60 * 5,
         });
-        console.log(signedUrl)
 
         res.status(200).json({ imageUrl: signedUrl });
 
