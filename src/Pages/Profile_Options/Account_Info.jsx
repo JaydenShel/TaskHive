@@ -1,33 +1,26 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { API_BASE_URL } from "../../config";
+import { loadProfileImage } from "../utils/loadProfileImage";
 
 function Account_Info() {
-    const navigate = useNavigate();
     const [hasImage, setHasImage] = useState(false);
     const [profileUrl, setProfileUrl] = useState("");
     const [err, setErr] = useState("");
 
     useEffect(() => {
-        loadImage();
-    }, []);
-
-    const loadImage = async () => {
-        const res = await fetch(`${API_BASE_URL}/load-image`, {
-            method: "GET",
-            credentials: "include"
-        });
-
-        if (res.ok) {
-            const data = await res.json();
-            console.log("Image data:", data);
-            setProfileUrl(data.imageUrl);
-            setHasImage(true);
-        } else {
-            console.log("Image data:");
-            setHasImage(false);
+        async function fetchProfileImage() {
+            const result = await loadProfileImage();
+            if (result.success) {
+                setProfileUrl(result.imageUrl);
+                setHasImage(true);
+            } else {
+                setHasImage(false);
+            }
         }
-    };
+
+        fetchProfileImage();
+    }, []);
 
     const uploadImage = async () => {
         const input = document.createElement("input");

@@ -2,18 +2,37 @@ import PropTypes from 'prop-types';
 import '../Style/s_banner.css';
 import logo from '../img/TaskHiveLogo.png'
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import {useEffect, useState} from "react";
+import {API_BASE_URL} from "../config";
+import { loadProfileImage } from "../Pages/utils/loadProfileImage";
 
 function Banner({ isLoggedIn = '', onLogin, onLogout, onAccount, onProfile}) {  // Set default value for username
     const navigate = useNavigate();
     const location = useLocation();
+    const [hasImage, setHasImage] = useState(false);
+    const [profileUrl, setProfileUrl] = useState("");
 
     //Check if the current page is the login page
     const isLoginPage = location.pathname === '/login';
     const isAccountPage = location.pathname === '/account';
 
+    useEffect(() => {
+        async function fetchProfileImage() {
+            const result = await loadProfileImage();
+            if (result.success) {
+                setProfileUrl(result.imageUrl);
+                setHasImage(true);
+            } else {
+                setHasImage(false);
+            }
+        }
+
+        fetchProfileImage();
+    }, []);
+
+
     return (
         <div className="banner">
-            {/* Left: App Title */}
             <div className={"banner-actions"}>
                 <img className="image-logo" src={logo} alt={"TaskHive Logo"} onClick={() => {
                     navigate('/home')
@@ -45,10 +64,11 @@ function Banner({ isLoggedIn = '', onLogin, onLogout, onAccount, onProfile}) {  
                             navigate('/profile')
                         }}>
                             <div className={"profile-logo"}>
-                                <img
-                                    src="/path/to/default-user-logo.png"
-                                    alt="User Logo"
-                                />
+                                {hasImage && profileUrl ? (
+                                    <img src={profileUrl} alt="Profile" className="profile-circle" />
+                                ) : (
+                                    <div className="profile-placeholder">?</div>
+                                )}
                             </div>
                             <div className="username">{localStorage.getItem('username')}</div>
                         </div>
