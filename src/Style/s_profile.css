@@ -142,4 +142,17 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    flex-direction: row;
 }
+
+.settings-inner-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-width: 180px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
