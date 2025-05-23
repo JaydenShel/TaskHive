@@ -12,20 +12,6 @@ function Account_Info() {
         loadImage();
     }, []);
 
-    const handlePasswordReset = async () => {
-        const res = await fetch(`${API_BASE_URL}/auth`, {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
-        });
-
-        if (res.ok) {
-            navigate("/reset");
-        } else {
-            setErr("Not authenticated.");
-        }
-    };
-
     const loadImage = async () => {
         const res = await fetch(`${API_BASE_URL}/load-image`, {
             method: "GET",
@@ -91,10 +77,6 @@ function Account_Info() {
 
             <p className="account-text"><strong>Username:</strong> {localStorage.getItem("username")}</p>
             <p className="account-text"><strong>Password:</strong> **********</p>
-
-            <button className="btn blue" onClick={handlePasswordReset}>
-                Reset Password
-            </button>
 
             {err && <div className="error-box">{err}</div>}
         </div>

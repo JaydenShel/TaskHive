@@ -15,16 +15,16 @@ function Profile() {
         <div className="settings-layout">
             <aside className="settings-sidebar">
                 <div
-                    className={`sidebar-item ${selectedContent === "settings" ? "active" : ""}`}
-                    onClick={() => setSelectedContent("settings")}
-                >
-                    Settings
-                </div>
-                <div
                     className={`sidebar-item ${selectedContent === "account_info" ? "active" : ""}`}
                     onClick={() => setSelectedContent("account_info")}
                 >
                     Account Info
+                </div>
+                <div
+                    className={`sidebar-item ${selectedContent === "settings" ? "active" : ""}`}
+                    onClick={() => setSelectedContent("settings")}
+                >
+                    Settings
                 </div>
             </aside>
 

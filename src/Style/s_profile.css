@@ -145,14 +145,36 @@
     flex-direction: row;
 }
 
-.settings-inner-sidebar {
+.security-settings-container {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    min-width: 180px;
-    background-color: white;
-    border-radius: 10px;
-    padding: 1rem;
-    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    gap: 2rem;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
 }
 
+.security-option-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.section-heading {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2c2c2c;
+    margin-bottom: 1rem;
+}
+
+.error-box {
+    background-color: #ffe0e0;
+    color: #b30000;
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+}

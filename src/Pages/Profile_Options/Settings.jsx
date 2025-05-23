@@ -1,15 +1,12 @@
 import { useState } from "react";
-import Account_Info from "./Account_Info";
-import SecuritySettings from "./SecuritySettings";     // create these components
+import SecuritySettings from "./SecuritySettings";
 import PreferencesSettings from "./PreferencesSettings";
 
 function SettingsPage() {
-    const [activeTab, setActiveTab] = useState("account");
+    const [activeTab, setActiveTab] = useState("security");
 
     const renderContent = () => {
         switch (activeTab) {
-            case "account":
-                return <Account_Info />;
             case "security":
                 return <SecuritySettings />;
             case "preferences":
@@ -22,12 +19,6 @@ function SettingsPage() {
     return (
         <div className="settings-layout">
             <aside className="settings-sidebar">
-                <div
-                    className={`sidebar-item ${activeTab === "account" ? "active" : ""}`}
-                    onClick={() => setActiveTab("account")}
-                >
-                    Account Info
-                </div>
                 <div
                     className={`sidebar-item ${activeTab === "security" ? "active" : ""}`}
                     onClick={() => setActiveTab("security")}
