@@ -28,7 +28,6 @@ const loginRoute = require('./api/login');
 const accountRoute = require('./api/account');
 const authRoute = require('./api/auth');
 const logoutRoute = require('./api/logout');
-const loadProfileImage = require('./api/loadProfileImage');
 const resetPassword = require('./api/reset');
 const fetchBoards = require('./api/fetchBoards');
 const createBoard = require('./api/createBoard');
@@ -38,12 +37,12 @@ const addColumn = require('./api/addColumn')
 const addTask = require('./api/addTask')
 const toggleTaskDone = require('./api/toggleTaskDone')
 const uploadImageRoute = require('./aws/uploadController');
+const loadImage = require('./api/load-image')
 
 app.use('/login', loginRoute);
 app.use('/account', accountRoute);
 app.use('/auth', authRoute);
 app.use('/logout', logoutRoute);
-app.use('/load-image', loadProfileImage);
 app.use('/reset', resetPassword);
 app.use('/fetchBoards', fetchBoards);
 app.use('/createBoards', createBoard);
@@ -53,6 +52,7 @@ app.use('/addColumn', addColumn)
 app.use('/addTask', addTask)
 app.use('/toggleTaskDone', toggleTaskDone)
 app.use('/upload-image', uploadImageRoute);
+app.use('/load-image', loadImage)
 
 const distPath = path.join(__dirname, '..', 'dist');
 app.use(express.static(distPath));

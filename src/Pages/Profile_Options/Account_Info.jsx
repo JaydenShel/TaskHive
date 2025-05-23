@@ -1,44 +1,26 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { API_BASE_URL } from "../../config";
+import { loadProfileImage } from "../utils/loadProfileImage";
 
 function Account_Info() {
-    const navigate = useNavigate();
     const [hasImage, setHasImage] = useState(false);
     const [profileUrl, setProfileUrl] = useState("");
     const [err, setErr] = useState("");
 
     useEffect(() => {
-        loadImage();
+        async function fetchProfileImage() {
+            const result = await loadProfileImage();
+            if (result.success) {
+                setProfileUrl(result.imageUrl);
+                setHasImage(true);
+            } else {
+                setHasImage(false);
+            }
+        }
+
+        fetchProfileImage();
     }, []);
-
-    const handlePasswordReset = async () => {
-        const res = await fetch(`${API_BASE_URL}/auth/`, {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
-        });
-
-        if (res.ok) {
-            navigate("/reset");
-        } else {
-            setErr("Not authenticated.");
-        }
-    };
-
-    const loadImage = async () => {
-        const res = await fetch(`${API_BASE_URL}/load-image/`, {
-            credentials: "include"
-        });
-
-        if (res.ok) {
-            const blob = await res.blob();
-            setProfileUrl(URL.createObjectURL(blob));
-            setHasImage(true);
-        } else {
-            setHasImage(false);
-        }
-    };
 
     const uploadImage = async () => {
         const input = document.createElement("input");
@@ -53,6 +35,7 @@ function Account_Info() {
             const res = await fetch(`${API_BASE_URL}/upload-image`, {
                 method: "POST",
                 credentials: "include",
+                include: "credentials",
                 body: formData,
             });
 
@@ -72,7 +55,7 @@ function Account_Info() {
     return (
         <div className="account-card">
             <div className="profile-image-container">
-                {hasImage ? (
+                {hasImage && profileUrl ? (
                     <img src={profileUrl} alt="Profile" className="profile-circle" />
                 ) : (
                     <div className="profile-placeholder">?</div>
@@ -88,13 +71,10 @@ function Account_Info() {
             <p className="account-text"><strong>Username:</strong> {localStorage.getItem("username")}</p>
             <p className="account-text"><strong>Password:</strong> **********</p>
 
-            <button className="btn blue" onClick={handlePasswordReset}>
-                Reset Password
-            </button>
-
             {err && <div className="error-box">{err}</div>}
         </div>
     );
+
 }
 
 export default Account_Info;
