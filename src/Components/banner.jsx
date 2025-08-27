@@ -3,10 +3,9 @@ import '../Style/s_banner.css';
 import logo from '../img/TaskHiveLogo.png'
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {useEffect, useState} from "react";
-import {API_BASE_URL} from "../config";
 import { loadProfileImage } from "../Pages/utils/loadProfileImage";
 
-function Banner({ isLoggedIn = '', onLogin, onLogout, onAccount, onProfile}) {  // Set default value for username
+function Banner({ isLoggedIn = '', onLogin, onLogout, onAccount, onProfile}) {
     const navigate = useNavigate();
     const location = useLocation();
     const [hasImage, setHasImage] = useState(false);
@@ -30,49 +29,58 @@ function Banner({ isLoggedIn = '', onLogin, onLogout, onAccount, onProfile}) {  
         fetchProfileImage();
     }, []);
 
-
     return (
         <div className="banner">
-            <div className={"banner-actions"}>
-                <img className="image-logo" src={logo} alt={"TaskHive Logo"} onClick={() => {
-                    navigate('/home')
-                }}/>
+            {/* Left side - Logo and Title */}
+            <div className="banner-left">
+                <img 
+                    className="image-logo" 
+                    src={logo} 
+                    alt="TaskHive Logo" 
+                    onClick={() => navigate('/home')}
+                />
                 <div className="banner-logo">
                     <h1>TaskHive</h1>
                 </div>
             </div>
 
-            {/* Right: Navigation/Buttons */}
-            <div className="banner-actions">
+            {/* Right side - Navigation and Profile */}
+            <div className="banner-right">
                 {!isLoginPage && isLoggedIn ? (
                     <>
-                        {/* Use Link for navigation */}
                         <Link to="/collections">
                             <button>Collections</button>
                         </Link>
                         <Link to="/settings">
                             <button>Settings</button>
                         </Link>
-                        <button onClick={() => {
-                            navigate('/home')
-                            onLogout()
-                        }} className="logout-button">
+                        <button 
+                            onClick={() => {
+                                navigate('/home')
+                                onLogout()
+                            }} 
+                            className="logout-button"
+                        >
                             Logout
                         </button>
-                        <div className={"profile-container"} onClick={() => {
-                            onProfile()
-                            navigate('/profile')
-                        }}>
-                            <div className={"profile-logo"}>
+                        <div 
+                            className="profile-container" 
+                            onClick={() => {
+                                onProfile()
+                                navigate('/profile')
+                            }}
+                        >
+                            <div className="profile-logo">
                                 {hasImage && profileUrl ? (
-                                    <img src={profileUrl} alt="Profile" className="profile-circle" />
+                                    <img src={profileUrl} alt="Profile" />
                                 ) : (
                                     <div className="profile-placeholder">?</div>
                                 )}
                             </div>
-                            <div className="username">{localStorage.getItem('username')}</div>
+                            <div className="username">
+                                {localStorage.getItem('username')}
+                            </div>
                         </div>
-
                     </>
                 ) : !isLoginPage && !isAccountPage ? (
                     <>

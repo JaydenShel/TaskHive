@@ -33,13 +33,14 @@ body {
   background-color: #ffffff;
 }
 
-
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  margin: 0;
 }
 
-button {
+/* Global button styles - but exclude banner buttons */
+button:not(.banner button):not(.banner-right button):not(.logout-button):not(.login-button) {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -50,11 +51,13 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
+
+button:not(.banner button):not(.banner-right button):not(.logout-button):not(.login-button):hover {
   border-color: #646cff;
 }
-button:focus,
-button:focus-visible {
+
+button:not(.banner button):not(.banner-right button):not(.logout-button):not(.login-button):focus,
+button:not(.banner button):not(.banner-right button):not(.logout-button):not(.login-button):focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
@@ -66,7 +69,7 @@ button:focus-visible {
   a:hover {
     color: #747bff;
   }
-  button {
+  button:not(.banner button):not(.banner-right button):not(.logout-button):not(.login-button) {
     background-color: #f9f9f9;
   }
 }

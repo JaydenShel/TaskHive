@@ -1,37 +1,85 @@
+/* 
+ * BANNER CSS - VERSION 2.0 - CACHE BUST: 2024-01-27
+ * This CSS completely overrides all conflicting styles
+ * Force refresh your browser if you still see old styles
+ */
+
+/* CSS Reset for Banner - Ensure no conflicts */
+.banner *,
+.banner *::before,
+.banner *::after {
+    box-sizing: border-box;
+}
+
+/* Banner Container - Ensure no overflow */
 .banner {
-    width: 100%;
-    min-height: 100px;
-    background: linear-gradient(135deg, #aa93fb, #a967f1);
-    color: white;
+    all: unset;
     display: flex;
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(135deg, #aa93fb, #a967f1);
+    color: #2c1810; /* Dark brown text for better contrast */
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
-    padding: 15px 30px;
+    padding: 0 30px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     border-bottom: 3px solid rgba(255, 255, 255, 0.1);
-    box-sizing: border-box;
-    overflow: hidden;
     position: relative;
-    z-index: 10;
+    z-index: 1000;
+    font-family: inherit;
+    overflow: hidden; /* Prevent any content from going off screen */
+    box-sizing: border-box;
+}
+
+/* Left side - Logo and Title */
+.banner-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
 .banner-logo {
     font-size: 20px;
     font-weight: bold;
     font-family: 'Georgia', serif;
-    color: white;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    color: #2c1810; /* Dark brown for better contrast */
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.3); /* White shadow for depth */
+    margin: 0;
 }
 
-.banner-actions {
+.banner-logo h1 {
+    margin: 0;
+    padding: 0;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: 1;
+    color: inherit;
+}
+
+.image-logo {
+    height: 45px;
+    width: auto;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+    flex-shrink: 0;
+}
+
+.image-logo:hover {
+    transform: scale(1.05);
+}
+
+/* Right side - Navigation and Profile - Prevent overflow */
+.banner-right {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
-    gap: 15px;
+    gap: 12px; /* Reduced from 15px */
+    flex-shrink: 0;
+    max-width: 60%; /* Prevent taking too much space */
+    overflow: hidden; /* Prevent overflow */
 }
 
-.banner-actions button {
+/* Navigation Buttons */
+.banner-right button {
     padding: 10px 18px;
     font-size: 14px;
     font-weight: bold;
@@ -40,79 +88,171 @@
     border: 2px solid transparent;
     border-radius: 8px;
     cursor: pointer;
-    transition: background 0.3s, transform 0.2s ease-in-out, border-color 0.3s;
+    transition: all 0.3s ease;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    font-family: inherit;
+    min-width: fit-content;
 }
 
-.banner-actions button:hover {
+.banner-right button:hover {
     background: #ecf0f1;
     transform: scale(1.05);
     border-color: #3498db;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+.banner-right button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+}
+
+/* Logout Button */
 .logout-button {
-    background: #e74c3c;
-    color: white;
+    background: #e74c3c !important;
+    color: white !important;
 }
 
 .logout-button:hover {
-    background: #c0392b;
-    transform: scale(1.05);
-    border-color: #fff;
+    background: #c0392b !important;
+    border-color: #fff !important;
 }
 
-.profile {
-    color: white;
-    font-weight: bold;
-    font-size: 16px;
-    cursor: pointer;
-    transition: none;
+/* Profile Section - Force override all conflicting styles */
+.profile-container {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important; /* Reduced from 10px */
+    cursor: pointer !important;
+    padding: 4px 8px !important; /* Reduced padding */
+    border-radius: 20px !important;
+    transition: background-color 0.3s ease !important;
+    flex-shrink: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    max-width: 150px !important; /* Constrain total width */
+    min-width: fit-content !important;
+    width: auto !important;
+    overflow: hidden !important; /* Prevent overflow */
+    position: relative !important;
+    z-index: 1 !important;
+    box-shadow: none !important;
+    outline: none !important;
+    text-decoration: none !important;
+    list-style: none !important;
+    margin: 0 !important;
 }
 
-.profile:hover {
-    color: #ecf0f1;
+.profile-container:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    transform: none !important;
+    box-shadow: none !important;
 }
 
+.profile-container:before,
+.profile-container:after {
+    display: none !important;
+    content: none !important;
+}
+
+/* Force remove any inherited backgrounds */
+.profile-container,
+.profile-container * {
+    background: transparent !important;
+}
+
+.profile-container:hover,
+.profile-container:hover * {
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Profile Image - Force override */
 .profile-logo {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 2px solid #fff;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease-in-out;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50% !important;
+    overflow: hidden !important;
+    border: 2px solid #fff !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+    flex-shrink: 0 !important;
+    background: rgba(255, 255, 255, 0.2) !important;
+    min-width: 40px !important;
+    max-width: 40px !important;
+    min-height: 40px !important;
+    max-height: 40px !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 .profile-logo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    border-radius: 50% !important;
+    background: transparent !important;
 }
-
 
 .profile-logo:hover {
-    transform: scale(1.08);
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+    transform: scale(1.05) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
 }
 
-
-.profile-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+/* Profile Placeholder - Force override with better contrast */
+.profile-placeholder {
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: rgba(255, 255, 255, 0.3) !important;
+    color: #2c1810 !important; /* Dark brown for better contrast */
+    font-size: 16px !important;
+    font-weight: bold !important;
+    border-radius: 50% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5) !important; /* White shadow for contrast */
 }
 
-/* Responsive Fixes */
+/* Username - Better contrast */
+.username {
+    color: #2c1810 !important; /* Dark brown instead of white */
+    font-weight: 700 !important; /* Bolder for better readability */
+    font-size: 14px !important;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5) !important; /* White shadow for contrast */
+    flex-shrink: 0 !important;
+    max-width: 80px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    outline: none !important;
+    text-decoration: none !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
     .banner {
+        height: auto;
+        min-height: 80px;
         flex-direction: column;
         align-items: flex-start;
-        gap: 10px;
+        gap: 15px;
         padding: 15px;
     }
 
-    .banner-actions {
+    .banner-left {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .banner-right {
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
@@ -120,17 +260,54 @@
     }
 
     .profile-container {
-        flex-direction: row;
-        justify-content: space-between;
         width: 100%;
+        justify-content: space-between;
+        padding: 8px 12px;
     }
 
     .profile-logo {
-        width: 40px;
-        height: 40px;
+        width: 35px;
+        height: 35px;
     }
 
     .banner-logo {
         font-size: 18px;
     }
+
+    .image-logo {
+        height: 35px;
+    }
+
+    .banner-right button {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Override any global button styles */
+.banner button {
+    background-color: white !important;
+    color: #3498db !important;
+    border: 2px solid transparent !important;
+    padding: 10px 18px !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
+    border-radius: 8px !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15) !important;
+    font-family: inherit !important;
+    min-width: fit-content !important;
+}
+
+.banner button:hover {
+    background-color: #ecf0f1 !important;
+    transform: scale(1.05) !important;
+    border-color: #3498db !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+}
+
+.banner button:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3) !important;
 }
