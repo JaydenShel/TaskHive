@@ -14,6 +14,10 @@ router.post('/', async (req, res) => {
             [id, username]
         );
 
+        if (result.rowCount === 0) {
+            return res.status(404).json({ error: "Board not found" });
+        }
+        
         return res.status(200).json({ message: "Board deleted successfully" });
     } catch (err) {
         console.error("Error deleting board:", err);

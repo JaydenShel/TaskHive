@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route} from 'react-router-dom';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useCallback } from 'react';
 import { Context } from '../states/LoginContext';
 import HomePage from './Home.jsx';
 import Login from './Login.jsx';
@@ -16,14 +16,26 @@ import {API_BASE_URL} from "../config";
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useContext(Context);
 
-    //Periodically retrieve cookie and verify token
-    useEffect(() => {
-        //If user is logged in verify token
-        verifyToken()
-            .then()
+    const verifyToken = useCallback(async () => {
+        try {
+          const response = await fetch(`${API_BASE_URL}/auth/`, {
+            method: "GET",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+          });
+          setIsLoggedIn(response.status === 200);
+        } catch (error) {
+          console.error("Token verification failed:", error);
+          setIsLoggedIn(false);
+        }
+      }, [setIsLoggedIn]);
+    
+      useEffect(() => {
+        verifyToken();
         const interval = setInterval(verifyToken, 5 * 60 * 1000);
         return () => clearInterval(interval);
-    }, [setIsLoggedIn]);
+      }, [verifyToken]);
+    
 
     const handleLogin = () => {
         console.log("User logged in");
@@ -54,28 +66,6 @@ function App() {
     const handleProfile = () =>{
         console.log("Profile Selected")
     }
-
-    const verifyToken = async () => {
-        try {
-            const response = await fetch(`${API_BASE_URL}/auth/`, {
-                method: "GET",
-                credentials: "include",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
-
-            if (response.status === 200) {
-                console.log("Verification Success")
-                setIsLoggedIn(true); //Token is valid
-            } else {
-                setIsLoggedIn(false); //Token is invalid or expired
-            }
-        } catch (error) {
-            console.error("Token verification failed:", error);
-            setIsLoggedIn(false); //If there's an error, log out the user
-        }
-    };
 
     return (
         <BrowserRouter>

@@ -9,7 +9,6 @@ function CreateB() {
     const [boardName, setBoardName] = useState('');
     const [err, setErr] = useState('');
     const [errStatus, setErrStatus] = useState(false);
-    const [displayStatus, setDisplayStatus] = useState(false);
     const username = localStorage.getItem('username');
     const navigate = useNavigate();
 
