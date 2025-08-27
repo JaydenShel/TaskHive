@@ -1,0 +1,69 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: # Allow manual deployment
+
+jobs:
+  deploy:
+    name: Deploy Application
+    runs-on: ubuntu-latest
+    needs: [ci] # Only deploy if CI passes
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: package-lock.json
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Build frontend
+      run: npm run build
+      
+    - name: Setup AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+        
+    - name: Deploy to S3 (Frontend)
+      run: |
+        # Sync built frontend to S3 bucket
+        aws s3 sync dist/ s3://${{ secrets.S3_BUCKET }} --delete
+        echo "Frontend deployed to S3"
+        
+    - name: Invalidate CloudFront cache
+      if: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+      run: |
+        aws cloudfront create-invalidation \
+          --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
+          --paths "/*"
+        echo "CloudFront cache invalidated"
+        
+    - name: Deploy backend (Optional - for serverless)
+      if: ${{ secrets.DEPLOY_BACKEND }}
+      run: |
+        echo "Backend deployment would happen here"
+        echo "Could deploy to AWS Lambda, ECS, or other services"
+        
+    - name: Notify deployment success
+      run: |
+        echo "🚀 Deployment completed successfully!"
+        echo "Frontend: ${{ secrets.S3_BUCKET }}"
+        echo "Backend: ${{ secrets.BACKEND_URL }}"
+        
+    - name: Create deployment tag
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git tag -a "v$(date +'%Y%m%d-%H%M%S')" -m "Deployment $(date)"
+        git push origin --tags

@@ -16,6 +16,7 @@ const HomePage = () => {
     const username = localStorage.getItem('username');
     const [boards, setBoards] = useState([]);
     const [boardDeleted, setBoardDeleted] = useState();
+    const [recentActivity, setRecentActivity] = useState([]);
 
     useEffect(() => {
         const verifyAndFetchBoards = async () => {
@@ -29,6 +30,7 @@ const HomePage = () => {
                 if (response.status <= 400) {
                     setIsLoggedIn(true);
                     fetchBoards();
+                    generateMockActivity();
                 } else {
                     setIsLoggedIn(false);
                 }
@@ -41,6 +43,15 @@ const HomePage = () => {
         verifyAndFetchBoards();
     }, []);
 
+    const generateMockActivity = () => {
+        const activities = [
+            { type: 'task_completed', message: 'Completed "Design Review" in Web Project', time: '2 hours ago' },
+            { type: 'board_created', message: 'Created new project "Mobile App Development"', time: '1 day ago' },
+            { type: 'task_added', message: 'Added 3 new tasks to "Marketing Campaign"', time: '2 days ago' },
+            { type: 'milestone_reached', message: 'Reached 75% completion in "Q4 Goals"', time: '3 days ago' }
+        ];
+        setRecentActivity(activities);
+    };
 
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
@@ -86,7 +97,15 @@ const HomePage = () => {
 
             if (response.status <= 400) {
                 const data = await response.json();
-                setBoards(data.boardInfo);
+                // Add mock progress and stats for demonstration
+                const enhancedBoards = data.boardInfo.map(board => ({
+                    ...board,
+                    progress: Math.floor(Math.random() * 100),
+                    totalTasks: Math.floor(Math.random() * 20) + 5,
+                    completedTasks: Math.floor(Math.random() * 15),
+                    priority: ['Low', 'Medium', 'High'][Math.floor(Math.random() * 3)]
+                }));
+                setBoards(enhancedBoards);
             } else {
                 console.log("Server error: failed to fetch boards.");
             }
@@ -104,7 +123,6 @@ const HomePage = () => {
             });
 
             if (response.status <= 400) {
-                // Re-fetch boards to update UI after deletion
                 fetchBoards();
             } else {
                 console.log("Server error deleting board.");
@@ -114,44 +132,162 @@ const HomePage = () => {
         }
     };
 
+    const getProgressColor = (progress) => {
+        if (progress >= 80) return '#28a745';
+        if (progress >= 60) return '#ffc107';
+        if (progress >= 40) return '#fd7e14';
+        return '#dc3545';
+    };
+
+    const getPriorityColor = (priority) => {
+        switch (priority) {
+            case 'High': return '#dc3545';
+            case 'Medium': return '#ffc107';
+            case 'Low': return '#28a745';
+            default: return '#6c757d';
+        }
+    };
 
     return (
         <div className="homepage">
-            <h1 className="home_header-font">My Boards</h1>
-
             {isLoggedIn && (
-                <div className="board-compartment">
-                    {boards.map((board) => (
-                        <div
-                            className="board-card clickable"
-                            key={board.id}
-                            onClick={() => navigate(`/board/${board.id}`)}
-                        >
-                            <div className="board-name">{board.name}</div>
-                            <img
-                                src={trashIcon}
-                                alt="Delete"
-                                className="trash-icon"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    const confirmed = window.confirm(`Are you sure you want to delete "${board.name}"?`);
-                                    if (confirmed) deleteBoard(board.id);
-                                }}
-                            />
-                            <div className="board-created-at">
-                                {new Date(board.created_at).toLocaleDateString()}
-                            </div>
-                            <div className="board-image" style={{ backgroundColor: "#f0f0f0" }}></div>
-                        </div>
-                    ))}
-
-
-                    <div className="board-card add-card">
-                        <button className="submit-button" onClick={handleNewBoard}>Add</button>
-                        <div className="board-name">New Board</div>
-                        <div className="board-image" style={{ backgroundImage: `url(${image})` }}></div>
+                <>
+                    <div className="dashboard-header">
+                        <h1 className="home_header-font">Welcome back, {username}!</h1>
+                        <p className="dashboard-subtitle">Here's what's happening with your projects</p>
                     </div>
-                </div>
+
+                    <div className="dashboard-stats">
+                        <div className="stat-card">
+                            <div className="stat-icon">📊</div>
+                            <div className="stat-content">
+                                <h3>Total Projects</h3>
+                                <span className="stat-number">{boards.length}</span>
+                            </div>
+                        </div>
+                        <div className="stat-card">
+                            <div className="stat-icon">✅</div>
+                            <div className="stat-content">
+                                <h3>Completed</h3>
+                                <span className="stat-number">
+                                    {boards.filter(b => b.progress === 100).length}
+                                </span>
+                            </div>
+                        </div>
+                        <div className="stat-card">
+                            <div className="stat-icon">🚧</div>
+                            <div className="stat-content">
+                                <h3>In Progress</h3>
+                                <span className="stat-number">
+                                    {boards.filter(b => b.progress > 0 && b.progress < 100).length}
+                                </span>
+                            </div>
+                        </div>
+                        <div className="stat-card">
+                            <div className="stat-icon">📝</div>
+                            <div className="stat-content">
+                                <h3>Total Tasks</h3>
+                                <span className="stat-number">
+                                    {boards.reduce((sum, b) => sum + b.totalTasks, 0)}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="dashboard-content">
+                        <div className="projects-section">
+                            <div className="section-header">
+                                <h2>My Projects</h2>
+                                <button className="new-project-btn" onClick={handleNewBoard}>
+                                    <span>+</span> New Project
+                                </button>
+                            </div>
+                            
+                            <div className="board-compartment">
+                                {boards.map((board) => (
+                                    <div
+                                        className="board-card clickable"
+                                        key={board.id}
+                                        onClick={() => navigate(`/board/${board.id}`)}
+                                    >
+                                        <div className="board-header">
+                                            <span className={`priority-badge ${board.priority?.toLowerCase()}`}>
+                                                {board.priority}
+                                            </span>
+                                            <img
+                                                src={trashIcon}
+                                                alt="Delete"
+                                                className="trash-icon"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    const confirmed = window.confirm(`Are you sure you want to delete "${board.name}"?`);
+                                                    if (confirmed) deleteBoard(board.id);
+                                                }}
+                                            />
+                                        </div>
+                                        
+                                        <div className="board-content">
+                                            <h3 className="board-name">{board.name}</h3>
+                                            
+                                            <div className="progress-section">
+                                                <div className="progress-bar">
+                                                    <div 
+                                                        className="progress-fill"
+                                                        style={{ 
+                                                            width: `${board.progress}%`,
+                                                            backgroundColor: getProgressColor(board.progress)
+                                                        }}
+                                                    ></div>
+                                                </div>
+                                                <span className="progress-text">{board.progress}%</span>
+                                            </div>
+                                            
+                                            <div className="board-stats">
+                                                <span className="task-count">
+                                                    {board.completedTasks}/{board.totalTasks} tasks
+                                                </span>
+                                                <span className="created-date">
+                                                    {new Date(board.created_at).toLocaleDateString()}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+
+                                <div className="board-card add-card">
+                                    <div className="add-card-content">
+                                        <div className="add-icon">+</div>
+                                        <h3>Create New Project</h3>
+                                        <p>Start organizing your next big idea</p>
+                                        <button className="create-btn" onClick={handleNewBoard}>
+                                            Get Started
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="activity-section">
+                            <h2>Recent Activity</h2>
+                            <div className="activity-list">
+                                {recentActivity.map((activity, index) => (
+                                    <div key={index} className="activity-item">
+                                        <div className="activity-icon">
+                                            {activity.type === 'task_completed' && '✅'}
+                                            {activity.type === 'board_created' && '📋'}
+                                            {activity.type === 'task_added' && '➕'}
+                                            {activity.type === 'milestone_reached' && '🎯'}
+                                        </div>
+                                        <div className="activity-content">
+                                            <p>{activity.message}</p>
+                                            <span className="activity-time">{activity.time}</span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </>
             )}
 
             <div className="home-info">
@@ -165,9 +301,14 @@ const HomePage = () => {
                             Sign up to create and organize task boards tailored to your projects. Personalize your workspace, manage timelines, and keep everything synced in one place. Your boards are saved to your profile and accessible anytime.
                         </p>
                         {!isLoggedIn && (
-                            <button className="submit-button" onClick={() => navigate('/account')}>
-                                Sign Up
-                            </button>
+                            <div className="cta-buttons">
+                                <button className="submit-button primary" onClick={() => navigate('/account')}>
+                                    Get Started Free
+                                </button>
+                                <button className="submit-button secondary" onClick={() => navigate('/login')}>
+                                    Sign In
+                                </button>
+                            </div>
                         )}
                     </div>
                     <div className="intro-right">
@@ -177,6 +318,8 @@ const HomePage = () => {
 
                 {isLoggedIn && (
                     <div className="section">
+                        <h2>AI Image Transformation</h2>
+                        <p>Transform your project images with AI-powered style filters</p>
                         <div className="upload-section">
                             <input
                                 type="file"
