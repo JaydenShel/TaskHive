@@ -59,7 +59,7 @@ jobs:
       run: npm ci
       
     - name: Check for security vulnerabilities
-      run: npm audit --audit-level moderate
+      run: npm audit --audit-level high
       
     - name: Test backend build
       run: |

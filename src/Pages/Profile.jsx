@@ -8,7 +8,7 @@ import PreferencesSettings from './Profile_Options/PreferencesSettings.jsx';
 
 function Profile() {
     const [selectedContent, setSelectedContent] = useState("account_info");
-    const [isLoggedIn, setIsLoggedIn] = useContext(Context);
+    const [isLoggedIn] = useContext(Context);
 
     const contentMap = {
         settings: <Settings />,

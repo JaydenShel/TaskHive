@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { API_BASE_URL } from "../../config";
 import { loadProfileImage } from "../utils/loadProfileImage";

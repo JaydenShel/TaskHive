@@ -1,11 +1,11 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Context } from '../states/LoginContext';
 import { API_BASE_URL } from '../config';
 import '../Style/s_collections.css';
 
 function Collections() {
-    const [isLoggedIn, setIsLoggedIn] = useContext(Context);
+    const [isLoggedIn] = useContext(Context);
     const [boards, setBoards] = useState([]);
     const [filteredBoards, setFilteredBoards] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -16,26 +16,26 @@ function Collections() {
     const navigate = useNavigate();
     const username = localStorage.getItem('username');
 
-    const categories = [
+    const categories = useMemo(() => [
         { id: 'all', name: 'All Projects', color: '#6c757d' },
         { id: 'work', name: 'Work', color: '#007bff' },
         { id: 'personal', name: 'Personal', color: '#28a745' },
         { id: 'study', name: 'Study', color: '#ffc107' },
         { id: 'health', name: 'Health & Fitness', color: '#dc3545' },
         { id: 'finance', name: 'Finance', color: '#17a2b8' }
-    ];
+    ], []);
 
     useEffect(() => {
         if (isLoggedIn) {
             fetchBoards();
         }
-    }, [isLoggedIn]);
+    }, [isLoggedIn, fetchBoards, filterAndSortBoards]);
 
     useEffect(() => {
         filterAndSortBoards();
-    }, [boards, searchTerm, selectedCategory, sortBy, sortOrder]);
+    }, [boards, searchTerm, selectedCategory, sortBy, sortOrder, filterAndSortBoards]);
 
-    const fetchBoards = async () => {
+    const fetchBoards = useCallback(async () => {
         try {
             const response = await fetch(`${API_BASE_URL}/fetchBoards/`, {
                 method: "POST",
@@ -60,9 +60,9 @@ function Collections() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [username, categories]);
 
-    const filterAndSortBoards = () => {
+    const filterAndSortBoards = useCallback(() => {
         let filtered = boards;
 
         // Filter by search term
@@ -107,7 +107,7 @@ function Collections() {
         });
 
         setFilteredBoards(filtered);
-    };
+    }, [boards, searchTerm, selectedCategory, sortBy, sortOrder]);
 
     const getCategoryInfo = (categoryId) => {
         return categories.find(cat => cat.id === categoryId) || categories[0];
