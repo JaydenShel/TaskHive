@@ -36,6 +36,9 @@ const getColumnsAndTasks = require('./api/getColumnsAndTasks')
 const addColumn = require('./api/addColumn')
 const addTask = require('./api/addTask')
 const toggleTaskDone = require('./api/toggleTaskDone')
+const updateTaskPosition = require('./api/updateTaskPosition');
+const updateTask = require('./api/updateTask');
+const deleteTask = require('./api/deleteTask');
 const uploadImageRoute = require('./aws/uploadController');
 const loadImage = require('./api/load-image')
 
@@ -51,6 +54,9 @@ app.use('/getColumnsAndTasks', getColumnsAndTasks)
 app.use('/addColumn', addColumn)
 app.use('/addTask', addTask)
 app.use('/toggleTaskDone', toggleTaskDone)
+app.use('/updateTaskPosition', updateTaskPosition);
+app.use('/updateTask', updateTask);
+app.use('/deleteTask', deleteTask);
 app.use('/upload-image', uploadImageRoute);
 app.use('/load-image', loadImage)
 

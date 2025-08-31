@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import '../Style/s_board.css';
 import { API_BASE_URL } from '../config';
+import Column from '../Components/Column';
+import TaskFilter from '../Components/TaskFilter';
 
 const BoardPage = () => {
     const { boardId } = useParams();
@@ -9,17 +11,16 @@ const BoardPage = () => {
     const [columns, setColumns] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
-    const [showAddTaskModal, setShowAddTaskModal] = useState(false);
     const [showAddColumnModal, setShowAddColumnModal] = useState(false);
-    const [selectedColumn, setSelectedColumn] = useState(null);
-    const [newTaskData, setNewTaskData] = useState({
-        title: '',
-        description: '',
-        priority: 'Medium',
-        dueDate: '',
-        assignee: ''
-    });
     const [newColumnData, setNewColumnData] = useState({ name: '' });
+    const [filters, setFilters] = useState({
+        priority: 'all',
+        assignee: 'all',
+        dueDate: 'all',
+        status: 'all'
+    });
+    const [sortBy, setSortBy] = useState('priority');
+    const [dragOverColumn, setDragOverColumn] = useState(null);
 
     useEffect(() => {
         const fetchBoard = async () => {
@@ -73,39 +74,38 @@ const BoardPage = () => {
         }
     };
 
-    const handleAddTask = async () => {
-        if (!newTaskData.title.trim() || !selectedColumn) return;
 
-        const res = await fetch(`${API_BASE_URL}/addTask`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                boardId, 
-                columnId: selectedColumn, 
-                title: newTaskData.title,
-                description: newTaskData.description,
-                priority: newTaskData.priority,
-                dueDate: newTaskData.dueDate,
-                assignee: newTaskData.assignee
-            }),
-        });
 
-        if (res.ok) {
-            const newTask = await res.json();
-            setColumns(columns.map(col =>
-                col.id === selectedColumn
-                    ? { ...col, tasks: [...col.tasks, newTask] }
-                    : col
-            ));
-            setNewTaskData({
-                title: '',
-                description: '',
-                priority: 'Medium',
-                dueDate: '',
-                assignee: ''
+    const handleAddTask = async (columnId, taskData) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/addTask`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    boardId, 
+                    columnId, 
+                    title: taskData.title,
+                    description: taskData.description,
+                    priority: taskData.priority,
+                    dueDate: taskData.dueDate,
+                    assignee: taskData.assignee
+                }),
             });
-            setShowAddTaskModal(false);
-            setSelectedColumn(null);
+
+            if (response.ok) {
+                const newTask = await response.json();
+                setColumns(columns.map(col =>
+                    col.id === columnId
+                        ? { ...col, tasks: [...col.tasks, newTask] }
+                        : col
+                ));
+                return newTask;
+            } else {
+                throw new Error('Failed to add task');
+            }
+        } catch (error) {
+            console.error('Error adding task:', error);
+            throw error;
         }
     };
 
@@ -129,18 +129,7 @@ const BoardPage = () => {
         }
     };
 
-    const deleteTask = async (taskId, columnId) => {
-        if (!window.confirm('Are you sure you want to delete this task?')) return;
 
-        // Mock deletion for now - you'll need to implement the backend endpoint
-        setColumns(columns.map(col => {
-            if (col.id !== columnId) return col;
-            return {
-                ...col,
-                tasks: col.tasks.filter(task => task.id !== taskId)
-            };
-        }));
-    };
 
     const deleteColumn = async (columnId) => {
         if (!window.confirm('Are you sure you want to delete this column? All tasks will be lost.')) return;
@@ -149,26 +138,171 @@ const BoardPage = () => {
         setColumns(columns.filter(col => col.id !== columnId));
     };
 
-    const getPriorityColor = (priority) => {
-        switch (priority) {
-            case 'High': return '#dc3545';
-            case 'Medium': return '#ffc107';
-            case 'Low': return '#28a745';
-            default: return '#6c757d';
+    const updateTask = async (taskId, taskData) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/updateTask`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    taskId,
+                    title: taskData.title,
+                    description: taskData.description,
+                    priority: taskData.priority,
+                    dueDate: taskData.dueDate,
+                    assignee: taskData.assignee
+                }),
+            });
+
+            if (response.ok) {
+                const updatedTask = await response.json();
+                setColumns(columns.map(col => ({
+                    ...col,
+                    tasks: col.tasks.map(task =>
+                        task.id === taskId ? { ...task, ...updatedTask } : task
+                    )
+                })));
+                return updatedTask;
+            } else {
+                throw new Error('Failed to update task');
+            }
+        } catch (error) {
+            console.error('Error updating task:', error);
+            throw error;
         }
     };
 
-    const getDueDateStatus = (dueDate) => {
-        if (!dueDate) return 'no-due-date';
-        const today = new Date();
-        const due = new Date(dueDate);
-        const diffTime = due - today;
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        
-        if (diffDays < 0) return 'overdue';
-        if (diffDays <= 3) return 'due-soon';
-        return 'on-time';
+    const deleteTask = async (taskId) => {
+        if (!window.confirm('Are you sure you want to delete this task?')) return;
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/deleteTask`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ taskId }),
+            });
+
+            if (response.ok) {
+                setColumns(columns.map(col => ({
+                    ...col,
+                    tasks: col.tasks.filter(task => task.id !== taskId)
+                })));
+            } else {
+                throw new Error('Failed to delete task');
+            }
+        } catch (error) {
+            console.error('Error deleting task:', error);
+        }
     };
+
+    const handleDragStart = (e, task) => {
+        e.dataTransfer.setData('taskId', task.id);
+        e.dataTransfer.setData('sourceColumnId', task.column_id);
+    };
+
+    const handleDrop = async (taskId, newColumnId, newPosition) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/updateTaskPosition`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ taskId, newColumnId, newPosition }),
+            });
+
+            if (response.ok) {
+                // Refresh the board data to get updated positions
+                const colRes = await fetch(`${API_BASE_URL}/getColumnsAndTasks`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ boardId }),
+                });
+
+                if (colRes.ok) {
+                    const colData = await colRes.json();
+                    setColumns(colData);
+                }
+            } else {
+                throw new Error('Failed to update task position');
+            }
+        } catch (error) {
+            console.error('Error updating task position:', error);
+        }
+    };
+
+    const handleDragOver = (columnId) => {
+        setDragOverColumn(columnId);
+    };
+
+    const handleDragLeave = () => {
+        setDragOverColumn(null);
+    };
+
+    const handleFilterChange = (newFilters) => {
+        setFilters(newFilters);
+    };
+
+    const handleSortChange = (newSortBy) => {
+        setSortBy(newSortBy);
+    };
+
+    const getFilteredAndSortedColumns = () => {
+        let filteredColumns = columns.map(col => ({
+            ...col,
+            tasks: col.tasks.filter(task => {
+                // Apply filters
+                if (filters.priority !== 'all' && task.priority !== filters.priority) return false;
+                if (filters.status !== 'all') {
+                    if (filters.status === 'completed' && !task.done) return false;
+                    if (filters.status === 'pending' && task.done) return false;
+                }
+                if (filters.assignee !== 'all') {
+                    if (filters.assignee === 'unassigned' && task.assigned_to) return false;
+                    if (filters.assignee === 'me' && task.assigned_to !== localStorage.getItem('username')) return false;
+                }
+                if (filters.dueDate !== 'all') {
+                    if (!task.due_date) {
+                        if (filters.dueDate !== 'no-due-date') return false;
+                    } else {
+                        const today = new Date();
+                        const due = new Date(task.due_date);
+                        const diffDays = Math.ceil((due - today) / (1000 * 60 * 60 * 24));
+                        
+                        if (filters.dueDate === 'overdue' && diffDays >= 0) return false;
+                        if (filters.dueDate === 'due-today' && diffDays !== 0) return false;
+                        if (filters.dueDate === 'due-week' && (diffDays < 0 || diffDays > 7)) return false;
+                    }
+                }
+                return true;
+            })
+        }));
+
+        // Apply sorting
+        filteredColumns.forEach(col => {
+            col.tasks.sort((a, b) => {
+                switch (sortBy) {
+                    case 'priority':
+                        const priorityOrder = { 'High': 3, 'Medium': 2, 'Low': 1 };
+                        return priorityOrder[b.priority] - priorityOrder[a.priority];
+                    case 'dueDate':
+                        if (!a.due_date && !b.due_date) return 0;
+                        if (!a.due_date) return 1;
+                        if (!b.due_date) return -1;
+                        return new Date(a.due_date) - new Date(b.due_date);
+                    case 'created':
+                        return new Date(b.created_at) - new Date(a.created_at);
+                    case 'assignee':
+                        return (a.assigned_to || '').localeCompare(b.assigned_to || '');
+                    default:
+                        return 0;
+                }
+            });
+        });
+
+        return filteredColumns;
+    };
+
+    const getTotalTasks = () => columns.reduce((sum, col) => sum + col.tasks.length, 0);
+    const getCompletedTasks = () => columns.reduce((sum, col) => sum + col.tasks.filter(task => task.done).length, 0);
+
+
 
     if (loading) return (
         <div className="board-page">
@@ -199,88 +333,31 @@ const BoardPage = () => {
                     <button className="add-column-btn" onClick={() => setShowAddColumnModal(true)}>
                         + Add Column
                     </button>
-                    <button className="add-task-btn" onClick={() => setShowAddTaskModal(true)}>
-                        + Add Task
-                    </button>
                 </div>
             </div>
 
+            <TaskFilter
+                onFilterChange={handleFilterChange}
+                onSortChange={handleSortChange}
+                totalTasks={getTotalTasks()}
+                completedTasks={getCompletedTasks()}
+            />
+
             <div className="board-columns">
-                {columns.map(column => (
-                    <div className="column" key={column.id}>
-                        <div className="column-header">
-                            <h2>{column.name}</h2>
-                            <div className="column-actions">
-                                <span className="task-count">{column.tasks.length} tasks</span>
-                                <button 
-                                    className="delete-column-btn"
-                                    onClick={() => deleteColumn(column.id)}
-                                    title="Delete column"
-                                >
-                                    🗑️
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div className="column-tasks">
-                            {column.tasks.map(task => (
-                                <div className={`task ${task.done ? 'done' : ''}`} key={task.id}>
-                                    <div className="task-header">
-                                        <label className="task-checkbox">
-                                            <input
-                                                type="checkbox"
-                                                checked={task.done}
-                                                onChange={() => toggleTaskDone(task.id, column.id)}
-                                            />
-                                            <span className="checkmark"></span>
-                                        </label>
-                                        <div className="task-priority">
-                                            <span 
-                                                className="priority-dot"
-                                                style={{ backgroundColor: getPriorityColor(task.priority) }}
-                                            ></span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div className="task-content">
-                                        <h4 className="task-title">{task.title}</h4>
-                                        {task.description && (
-                                            <p className="task-description">{task.description}</p>
-                                        )}
-                                        
-                                        <div className="task-meta">
-                                            {task.assignee && (
-                                                <span className="task-assignee">👤 {task.assignee}</span>
-                                            )}
-                                            {task.dueDate && (
-                                                <span className={`task-due-date ${getDueDateStatus(task.dueDate)}`}>
-                                                    📅 {new Date(task.dueDate).toLocaleDateString()}
-                                                </span>
-                                            )}
-                                        </div>
-                                    </div>
-                                    
-                                    <button 
-                                        className="delete-task-btn"
-                                        onClick={() => deleteTask(task.id, column.id)}
-                                        title="Delete task"
-                                    >
-                                        ×
-                                    </button>
-                                </div>
-                            ))}
-                            
-                            <button 
-                                className="add-task-to-column-btn" 
-                                onClick={() => {
-                                    setSelectedColumn(column.id);
-                                    setShowAddTaskModal(true);
-                                }}
-                            >
-                                + Add Task
-                            </button>
-                        </div>
-                    </div>
+                {getFilteredAndSortedColumns().map(column => (
+                    <Column
+                        key={column.id}
+                        column={column}
+                        onAddTask={handleAddTask}
+                        onDeleteColumn={deleteColumn}
+                        onToggleTaskDone={toggleTaskDone}
+                        onDeleteTask={deleteTask}
+                        onUpdateTask={updateTask}
+                        onDragStart={handleDragStart}
+                        onDrop={handleDrop}
+                        onDragOver={handleDragOver}
+                        onDragLeave={handleDragLeave}
+                    />
                 ))}
             </div>
 
@@ -309,86 +386,7 @@ const BoardPage = () => {
                 </div>
             )}
 
-            {/* Add Task Modal */}
-            {showAddTaskModal && (
-                <div className="modal-overlay" onClick={() => setShowAddTaskModal(false)}>
-                    <div className="modal" onClick={e => e.stopPropagation()}>
-                        <h3>Add New Task</h3>
-                        
-                        <div className="form-group">
-                            <label>Title *</label>
-                            <input
-                                type="text"
-                                placeholder="Task title"
-                                value={newTaskData.title}
-                                onChange={(e) => setNewTaskData({...newTaskData, title: e.target.value})}
-                                className="modal-input"
-                                autoFocus
-                            />
-                        </div>
 
-                        <div className="form-group">
-                            <label>Description</label>
-                            <textarea
-                                placeholder="Task description (optional)"
-                                value={newTaskData.description}
-                                onChange={(e) => setNewTaskData({...newTaskData, description: e.target.value})}
-                                className="modal-textarea"
-                                rows="3"
-                            />
-                        </div>
-
-                        <div className="form-row">
-                            <div className="form-group">
-                                <label>Priority</label>
-                                <select
-                                    value={newTaskData.priority}
-                                    onChange={(e) => setNewTaskData({...newTaskData, priority: e.target.value})}
-                                    className="modal-select"
-                                >
-                                    <option value="Low">Low</option>
-                                    <option value="Medium">Medium</option>
-                                    <option value="High">High</option>
-                                </select>
-                            </div>
-
-                            <div className="form-group">
-                                <label>Due Date</label>
-                                <input
-                                    type="date"
-                                    value={newTaskData.dueDate}
-                                    onChange={(e) => setNewTaskData({...newTaskData, dueDate: e.target.value})}
-                                    className="modal-input"
-                                />
-                            </div>
-                        </div>
-
-                        <div className="form-group">
-                            <label>Assignee</label>
-                            <input
-                                type="text"
-                                placeholder="Who should do this task?"
-                                value={newTaskData.assignee}
-                                onChange={(e) => setNewTaskData({...newTaskData, assignee: e.target.value})}
-                                className="modal-input"
-                            />
-                        </div>
-
-                        <div className="modal-actions">
-                            <button onClick={() => setShowAddTaskModal(false)} className="cancel-btn">
-                                Cancel
-                            </button>
-                            <button 
-                                onClick={handleAddTask} 
-                                className="confirm-btn"
-                                disabled={!newTaskData.title.trim()}
-                            >
-                                Add Task
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };
